@@ -188,7 +188,7 @@ export default function MeScreen() {
 
         {/* App Info */}
         <View className="px-6 pb-8 items-center">
-          <Text className="text-sm text-navy-500">Knot v1.0.0</Text>
+          <Text className="text-sm text-navy-500">Sort Out v1.0.0</Text>
           <Text className="text-xs text-navy-400 mt-1">Made with ❤️ for couples</Text>
         </View>
       </ScrollView>

@@ -2,7 +2,7 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { User } from '@/types';
 
-const USER_KEY = '@knot_user';
+const USER_KEY = '@sort_out_user';
 
 export async function signInWithEmail(email: string, password: string): Promise<User> {
     // For offline mode, just create/retrieve a local user
