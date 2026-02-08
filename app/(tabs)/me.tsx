@@ -38,7 +38,7 @@ export default function MeScreen() {
   };
 
   return (
-    <SafeAreaView className="flex-1 bg-blush-50">
+    <SafeAreaView className="flex-1 bg-surface">
       <ScrollView className="flex-1">
         {/* Header */}
         <View className="px-6 pt-4 pb-6">

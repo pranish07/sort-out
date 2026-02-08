@@ -32,8 +32,8 @@ export default function PairingScreen() {
   };
 
   return (
-    <SafeAreaView style={{ flex: 1, backgroundColor: '#FFEBE9' }}>
-      <ScrollView style={{ flex: 1 }}>
+    <SafeAreaView className="flex-1 bg-surface">
+      <ScrollView className="flex-1">
         {/* Header */}
         <View style={{ padding: 24 }}>
           <TouchableOpacity onPress={() => router.back()}>

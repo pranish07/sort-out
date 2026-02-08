@@ -7,7 +7,7 @@ export default function SortOutScreen() {
   const router = useRouter();
 
   return (
-    <SafeAreaView className="flex-1 bg-blush-50">
+    <SafeAreaView className="flex-1 bg-surface">
       {/* Header */}
       <View className="px-6 pt-4 pb-6">
         <View className="flex-row justify-between items-center">
