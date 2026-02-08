@@ -20,13 +20,13 @@ export default function GuidesScreen() {
   ];
 
   return (
-    <SafeAreaView className="flex-1 bg-blush-50">
+    <SafeAreaView className="flex-1 bg-surface">
       {/* Header */}
       <View className="px-6 pt-4 pb-4">
         <Text className="text-3xl font-bold text-navy mb-4">Guides</Text>
 
         {/* Search Bar */}
-        <View className="bg-white rounded-2xl px-4 py-3 shadow-soft flex-row items-center mb-4">
+        <View className="bg-beige-100 rounded-2xl px-4 py-3 shadow-soft flex-row items-center mb-4">
           <Ionicons name="search" size={20} color="#94A3B8" />
           <TextInput
             className="flex-1 ml-2 text-base text-navy"
@@ -43,8 +43,9 @@ export default function GuidesScreen() {
             {categories.map((category) => (
               <TouchableOpacity
                 key={category.id}
+                activeOpacity={0.8}
                 className={`px-4 py-2 rounded-full flex-row items-center ${
-                  selectedCategory === category.id ? 'bg-teal' : 'bg-white'
+                  selectedCategory === category.id ? 'bg-teal' : 'bg-beige-100'
                 }`}
                 onPress={() => setSelectedCategory(category.id)}
               >
@@ -82,7 +83,10 @@ export default function GuidesScreen() {
           <Text className="text-base text-white/90 mb-4">
             Learn the fundamental differences in emotional and physical needs between partners
           </Text>
-          <TouchableOpacity className="bg-white rounded-2xl py-3 items-center">
+          <TouchableOpacity 
+            activeOpacity={0.8}
+            className="bg-surface rounded-2xl py-3 items-center active:bg-gray-100"
+          >
             <Text className="text-teal font-bold">Read Guide</Text>
           </TouchableOpacity>
         </View>

@@ -51,10 +51,10 @@ export default function LoginScreen() {
   return (
     <KeyboardAvoidingView
       behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
-      className="flex-1 bg-blush-100"
+      className="flex-1 bg-surface"
     >
       <ScrollView
-        contentContainerClassName="flex-grow justify-center px-6"
+        contentContainerClassName="flex-grow justify-center px-6 py-8"
         keyboardShouldPersistTaps="handled"
       >
         <View className="items-center mb-12">
@@ -97,6 +97,7 @@ export default function LoginScreen() {
                 autoCapitalize="none"
               />
               <TouchableOpacity
+                activeOpacity={0.7}
                 className="absolute right-4 top-4"
                 onPress={() => setShowPassword(!showPassword)}
               >
@@ -110,7 +111,8 @@ export default function LoginScreen() {
           </View>
 
           <TouchableOpacity
-            className={`bg-teal rounded-2xl py-4 items-center mb-4 ${
+            activeOpacity={0.8}
+            className={`bg-teal rounded-2xl py-4 items-center mb-4 active:bg-teal-600 ${
               loading ? 'opacity-50' : ''
             }`}
             onPress={handleLogin}

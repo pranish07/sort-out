@@ -73,7 +73,8 @@ export default function MeScreen() {
               </View>
             ) : (
               <TouchableOpacity
-                className="bg-teal rounded-2xl py-4 items-center"
+                activeOpacity={0.8}
+                className="bg-teal rounded-2xl py-4 items-center active:bg-teal-600"
                 onPress={() => router.push('/pairing')}
               >
                 <Text className="text-white font-bold">Pair with Partner</Text>

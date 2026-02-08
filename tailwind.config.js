@@ -8,6 +8,12 @@ module.exports = {
     theme: {
         extend: {
             colors: {
+                surface: {
+                    DEFAULT: '#FAFAF9', // Warm, modern off-white
+                    50: '#FFFFFF',
+                    100: '#F5F5F4',
+                    200: '#E7E5E4',
+                },
                 blush: {
                     50: '#FFF5F4',
                     100: '#FFEBE9',
@@ -26,27 +32,27 @@ module.exports = {
                 },
                 beige: {
                     50: '#FDFCFB',
-                    100: '#F5F0E8',
-                    200: '#EBE1D1',
-                    300: '#E1D2BA',
+                    100: '#F8F5F1', // Softened
+                    200: '#F2ECE4', // Softened
+                    300: '#E9E0D4',
                     400: '#D7C3A3',
                     500: '#CDB48C',
                 },
                 teal: {
                     DEFAULT: '#14B8A6',
-                    50: '#E6F7F5',
-                    100: '#CCEFEB',
-                    200: '#99DFD7',
-                    300: '#66CFC3',
-                    400: '#33BFAF',
+                    50: '#E6F7F6',
+                    100: '#CCEFEA',
+                    200: '#99DFD6',
+                    300: '#66CFC2',
+                    400: '#33BFAD',
                     500: '#14B8A6',
-                    600: '#109688',
-                    700: '#0C7169',
-                    800: '#084C4A',
-                    900: '#04262B',
+                    600: '#0D9488', // Darker teal for pressed states
+                    700: '#0F766E', // Even darker
+                    800: '#115E59',
+                    900: '#134E4A',
                 },
                 navy: {
-                    DEFAULT: '#1E293B',
+                    DEFAULT: '#0F172A', // Deeper navy
                     50: '#F8FAFC',
                     100: '#F1F5F9',
                     200: '#E2E8F0',

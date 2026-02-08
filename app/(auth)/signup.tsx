@@ -40,7 +40,6 @@ export default function SignupScreen() {
 
     setLoading(true);
     try {
-      // We'll collect more info in onboarding
       router.push({
         pathname: '/(auth)/onboarding',
         params: { email, password, displayName },
@@ -55,13 +54,14 @@ export default function SignupScreen() {
   return (
     <KeyboardAvoidingView
       behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
-      className="flex-1 bg-blush-100"
+      className="flex-1 bg-surface"
     >
       <ScrollView
-        contentContainerClassName="flex-grow justify-center px-6 py-8"
+        contentContainerClassName="flex-grow justify-center px-6 py-12"
         keyboardShouldPersistTaps="handled"
       >
         <TouchableOpacity
+          activeOpacity={0.7}
           className="mb-6"
           onPress={() => router.back()}
         >
@@ -118,6 +118,7 @@ export default function SignupScreen() {
                 autoCapitalize="none"
               />
               <TouchableOpacity
+                activeOpacity={0.7}
                 className="absolute right-4 top-4"
                 onPress={() => setShowPassword(!showPassword)}
               >
@@ -146,7 +147,8 @@ export default function SignupScreen() {
           </View>
 
           <TouchableOpacity
-            className={`bg-teal rounded-2xl py-4 items-center ${
+            activeOpacity={0.8}
+            className={`bg-teal rounded-2xl py-4 items-center active:bg-teal-600 ${
               loading ? 'opacity-50' : ''
             }`}
             onPress={handleSignup}
@@ -160,7 +162,10 @@ export default function SignupScreen() {
 
         <View className="mt-6 flex-row justify-center items-center">
           <Text className="text-navy-600">Already have an account? </Text>
-          <TouchableOpacity onPress={() => router.back()}>
+          <TouchableOpacity 
+            activeOpacity={0.7}
+            onPress={() => router.back()}
+          >
             <Text className="text-teal font-semibold">Sign In</Text>
           </TouchableOpacity>
         </View>

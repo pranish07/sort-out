@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { View, Text, ScrollView, TouchableOpacity, TextInput } from 'react-native';
+import { View, Text, ScrollView, TouchableOpacity } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Ionicons } from '@expo/vector-icons';
 
@@ -8,19 +8,23 @@ export default function NotesScreen() {
   const [showCalendar, setShowCalendar] = useState(false);
 
   return (
-    <SafeAreaView className="flex-1 bg-blush-50">
-      {/* Header */}
-      <View className="px-6 pt-4 pb-4">
-        <View className="flex-row justify-between items-center mb-4">
+    <SafeAreaView className="flex-1 bg-surface">
+      <View className="flex-1 px-6 pt-4 pb-4">
+        {/* Header */}
+        <View className="flex-row justify-between items-center mb-6">
           <Text className="text-3xl font-bold text-navy">Journal</Text>
-          <TouchableOpacity className="w-12 h-12 bg-teal rounded-full items-center justify-center shadow-soft">
+          <TouchableOpacity 
+            activeOpacity={0.7}
+            className="w-12 h-12 bg-teal rounded-full items-center justify-center shadow-soft"
+          >
             <Ionicons name="add" size={24} color="white" />
           </TouchableOpacity>
         </View>
 
         {/* Tabs */}
-        <View className="flex-row bg-white rounded-2xl p-1 shadow-soft">
+        <View className="flex-row bg-white rounded-2xl p-1 shadow-soft mb-6">
           <TouchableOpacity
+            activeOpacity={0.8}
             className={`flex-1 py-3 rounded-xl ${
               activeTab === 'shared' ? 'bg-teal' : ''
             }`}
@@ -35,6 +39,7 @@ export default function NotesScreen() {
             </Text>
           </TouchableOpacity>
           <TouchableOpacity
+            activeOpacity={0.8}
             className={`flex-1 py-3 rounded-xl ${
               activeTab === 'private' ? 'bg-teal' : ''
             }`}
@@ -49,12 +54,11 @@ export default function NotesScreen() {
             </Text>
           </TouchableOpacity>
         </View>
-      </View>
 
-      {/* Calendar Strip */}
-      <View className="px-6 mb-4">
+        {/* Calendar Strip */}
         <TouchableOpacity
-          className="bg-white rounded-2xl p-4 shadow-soft flex-row items-center justify-between"
+          activeOpacity={0.7}
+          className="bg-white rounded-2xl p-4 shadow-soft flex-row items-center justify-between mb-6"
           onPress={() => setShowCalendar(!showCalendar)}
         >
           <View className="flex-row items-center">
@@ -69,44 +73,47 @@ export default function NotesScreen() {
             color="#64748B"
           />
         </TouchableOpacity>
-      </View>
 
-      {/* Entries List */}
-      <ScrollView className="flex-1 px-6">
-        {/* Empty State */}
-        <View className="items-center justify-center py-12">
-          <View className="w-24 h-24 bg-beige-100 rounded-full items-center justify-center mb-4">
-            <Ionicons name="book-outline" size={48} color="#CDB48C" />
+        {/* Entries List */}
+        <ScrollView className="flex-1" showsVerticalScrollIndicator={false}>
+          {/* Empty State */}
+          <View className="items-center justify-center py-12">
+            <View className="w-24 h-24 bg-beige-100 rounded-full items-center justify-center mb-4">
+              <Ionicons name="book-outline" size={48} color="#CDB48C" />
+            </View>
+            <Text className="text-xl font-bold text-navy mb-2">No Entries Yet</Text>
+            <Text className="text-base text-navy-600 text-center px-4">
+              Start journaling your journey together. Share moments, feelings, and memories.
+            </Text>
           </View>
-          <Text className="text-xl font-bold text-navy mb-2">No Entries Yet</Text>
-          <Text className="text-base text-navy-600 text-center px-8">
-            Start journaling your journey together. Share moments, feelings, and memories.
-          </Text>
-        </View>
 
-        {/* Reminders Section */}
-        <View className="mb-6">
-          <View className="flex-row justify-between items-center mb-3">
-            <Text className="text-lg font-bold text-navy">Reminders</Text>
-            <TouchableOpacity>
-              <Ionicons name="add-circle" size={24} color="#14B8A6" />
+          {/* Reminders Section */}
+          <View className="mb-6">
+            <View className="flex-row justify-between items-center mb-3">
+              <Text className="text-lg font-bold text-navy">Reminders</Text>
+              <TouchableOpacity activeOpacity={0.7}>
+                <Ionicons name="add-circle" size={24} color="#14B8A6" />
+              </TouchableOpacity>
+            </View>
+
+            <TouchableOpacity 
+              activeOpacity={0.7}
+              className="bg-white rounded-2xl p-4 shadow-soft"
+            >
+              <View className="flex-row items-center">
+                <View className="w-12 h-12 bg-blush-100 rounded-full items-center justify-center">
+                  <Ionicons name="gift" size={24} color="#FF998F" />
+                </View>
+                <View className="flex-1 ml-3">
+                  <Text className="text-base font-semibold text-navy">Partner's Birthday</Text>
+                  <Text className="text-sm text-navy-600">Coming up soon</Text>
+                </View>
+                <Ionicons name="chevron-forward" size={20} color="#94A3B8" />
+              </View>
             </TouchableOpacity>
           </View>
-
-          <View className="bg-white rounded-2xl p-4 shadow-soft">
-            <View className="flex-row items-center">
-              <View className="w-12 h-12 bg-blush-100 rounded-full items-center justify-center">
-                <Ionicons name="gift" size={24} color="#FF998F" />
-              </View>
-              <View className="flex-1 ml-3">
-                <Text className="text-base font-semibold text-navy">Partner's Birthday</Text>
-                <Text className="text-sm text-navy-600">Coming up soon</Text>
-              </View>
-              <Ionicons name="chevron-forward" size={20} color="#94A3B8" />
-            </View>
-          </View>
-        </View>
-      </ScrollView>
+        </ScrollView>
+      </View>
     </SafeAreaView>
   );
 }

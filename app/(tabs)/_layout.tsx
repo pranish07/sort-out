@@ -1,4 +1,4 @@
-import { View } from 'react-native';
+import { View, TouchableOpacity, Text } from 'react-native';
 import { Tabs } from 'expo-router';
 import { Ionicons } from '@expo/vector-icons';
 
@@ -46,33 +46,49 @@ export default function TabsLayout() {
         name="sortout"
         options={{
           tabBarLabel: 'Sort Out',
-          tabBarIcon: ({ color, focused }) => (
-            <View 
-              style={{
-                width: 64,
-                height: 64,
-                backgroundColor: '#14B8A6',
-                borderRadius: 32,
-                justifyContent: 'center',
-                alignItems: 'center',
-                marginBottom: 30, // Lift it up
-                shadowColor: '#14B8A6',
-                shadowOffset: { width: 0, height: 4 },
-                shadowOpacity: 0.3,
-                shadowRadius: 8,
-                elevation: 5,
-                borderWidth: 4,
-                borderColor: '#FFFFFF',
-              }}
-            >
-              <Ionicons name="flash" size={32} color="white" />
-            </View>
-          ),
-          tabBarLabelStyle: {
-            fontSize: 12,
-            fontWeight: '700',
-            color: '#14B8A6',
-            marginTop: 0,
+          tabBarButton: (props: any) => {
+            const { accessibilityState, onPress } = props;
+            const focused = accessibilityState?.selected;
+
+            return (
+              <View className="flex-1 items-center justify-center">
+                <TouchableOpacity
+                  activeOpacity={0.9}
+                  onPress={onPress}
+                  style={{
+                    top: -10, // Adjust height
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                  }}
+                >
+                  <View 
+                    style={{
+                      width: 60,
+                      height: 60,
+                      backgroundColor: '#14B8A6',
+                      borderRadius: 30,
+                      justifyContent: 'center',
+                      alignItems: 'center',
+                      shadowColor: '#14B8A6',
+                      shadowOffset: { width: 0, height: 4 },
+                      shadowOpacity: 0.3,
+                      shadowRadius: 8,
+                      elevation: 5,
+                      borderWidth: 4,
+                      borderColor: '#FFFFFF',
+                    }}
+                  >
+                    <Ionicons name="flash" size={28} color="white" />
+                  </View>
+                  <Text 
+                    className="text-[10px] font-bold mt-1"
+                    style={{ color: '#14B8A6' }}
+                  >
+                    Sort Out
+                  </Text>
+                </TouchableOpacity>
+              </View>
+            );
           },
         }}
       />
