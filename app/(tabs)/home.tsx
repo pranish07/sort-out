@@ -13,6 +13,7 @@ import PartnerStatus from '@/components/PartnerStatus';
 export default function HomeScreen() {
   const router = useRouter();
   const user = useUserStore((state) => state.user);
+  const partner = useUserStore((state) => state.partner);
   const userAssessment = useUserStore((state) => state.userAssessment);
   const partnerAssessment = useUserStore((state) => state.partnerAssessment);
   const [refreshing, setRefreshing] = useState(false);
@@ -47,7 +48,7 @@ export default function HomeScreen() {
             </View>
             <TouchableOpacity 
               onPress={() => router.push('/(tabs)/me')}
-              className="w-12 h-12 bg-white rounded-full items-center justify-center shadow-soft"
+              className="w-12 h-12 bg-white rounded-full items-center justify-center shadow-md"
             >
               <Ionicons name="settings-outline" size={24} color="#0F172A" />
             </TouchableOpacity>
@@ -57,7 +58,7 @@ export default function HomeScreen() {
         <View className="px-6 pb-12">
           {/* Partner Status Section */}
           <View className="mb-6">
-            <PartnerStatus />
+            <PartnerStatus partner={partner} />
           </View>
 
           {/* Love Score Section */}
@@ -70,7 +71,7 @@ export default function HomeScreen() {
             <TouchableOpacity 
               onPress={() => router.push('/assessment')}
               activeOpacity={0.9}
-              className="bg-teal p-6 rounded-3xl flex-row items-center justify-between mb-6 shadow-teal/30 shadow-lg"
+              className="bg-teal p-6 rounded-3xl flex-row items-center justify-between mb-6 shadow-lg"
             >
               <View className="flex-1">
                 <Text className="text-white text-lg font-bold">Relationship Test</Text>

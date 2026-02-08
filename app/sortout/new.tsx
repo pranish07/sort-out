@@ -66,7 +66,7 @@ export default function NewSortOutScreen() {
           <View className="mb-4">
             <Text className="text-base font-semibold text-navy mb-2">Issue Title</Text>
             <TextInput
-              className="bg-white rounded-2xl px-4 py-4 text-base text-navy shadow-soft"
+              className="bg-white rounded-2xl px-4 py-4 text-base text-navy shadow-md"
               placeholder="e.g., Communication about work stress"
               placeholderTextColor="#94A3B8"
               value={title}
@@ -78,7 +78,7 @@ export default function NewSortOutScreen() {
           <View className="mb-4">
             <Text className="text-base font-semibold text-navy mb-2">Your Perspective</Text>
             <TextInput
-              className="bg-white rounded-2xl px-4 py-4 text-base text-navy shadow-soft"
+              className="bg-white rounded-2xl px-4 py-4 text-base text-navy shadow-md"
               placeholder="Describe how you see the situation and how it makes you feel..."
               placeholderTextColor="#94A3B8"
               value={description}
@@ -94,7 +94,7 @@ export default function NewSortOutScreen() {
           <View className="mb-6">
             <Text className="text-base font-semibold text-navy mb-2">Voice Note (Optional)</Text>
             <TouchableOpacity
-              className={`rounded-2xl p-6 shadow-soft items-center ${
+              className={`rounded-2xl p-6 shadow-md items-center ${
                 isRecording ? 'bg-red-50' : 'bg-white'
               }`}
               onPress={() => setIsRecording(!isRecording)}
@@ -123,7 +123,7 @@ export default function NewSortOutScreen() {
         {/* Submit Button */}
         <View className="px-6 pb-6 pt-4 bg-blush-50">
           <TouchableOpacity
-            className={`bg-teal rounded-2xl py-4 items-center shadow-soft ${
+            className={`bg-teal rounded-2xl py-4 items-center shadow-md ${
               !title.trim() || !description.trim() ? 'opacity-50' : ''
             }`}
             onPress={handleSubmit}

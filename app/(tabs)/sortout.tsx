@@ -26,7 +26,7 @@ export default function SortOutScreen() {
       {/* New Sort Out Button */}
       <View className="px-6 mb-6">
         <TouchableOpacity
-          className="bg-teal rounded-2xl p-5 shadow-soft-lg flex-row items-center justify-center"
+          className="bg-teal rounded-2xl p-5 shadow-lg flex-row items-center justify-center"
           onPress={() => router.push('/sortout/new')}
         >
           <Ionicons name="add-circle" size={24} color="white" />
@@ -56,7 +56,7 @@ export default function SortOutScreen() {
         </View>
 
         {/* Example Issue Card (commented out for now) */}
-        {/* <TouchableOpacity className="bg-white rounded-2xl p-4 shadow-soft mb-3">
+        {/* <TouchableOpacity className="bg-white rounded-2xl p-4 shadow-md mb-3">
           <View className="flex-row items-start justify-between mb-2">
             <View className="flex-1">
               <Text className="text-base font-bold text-navy mb-1">

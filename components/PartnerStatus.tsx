@@ -9,7 +9,7 @@ interface PartnerStatusProps {
 export default function PartnerStatus({ partner }: PartnerStatusProps) {
   if (!partner) {
     return (
-      <View className="bg-white rounded-3xl p-5 shadow-soft flex-row items-center border border-beige-100">
+      <View className="bg-white rounded-3xl p-5 shadow-md flex-row items-center border border-beige-100">
         <View className="w-16 h-16 bg-beige-100 rounded-full items-center justify-center">
           <Ionicons name="person" size={32} color="#94A3B8" />
         </View>
@@ -25,7 +25,7 @@ export default function PartnerStatus({ partner }: PartnerStatusProps) {
   }
 
   return (
-    <View className="bg-white rounded-3xl p-5 shadow-soft flex-row items-center">
+    <View className="bg-white rounded-3xl p-5 shadow-md flex-row items-center">
       <View className="w-16 h-16 bg-blush-100 rounded-full items-center justify-center">
         <Text className="text-2xl font-bold text-blush-500">
           {partner.displayName?.charAt(0).toUpperCase() || 'P'}

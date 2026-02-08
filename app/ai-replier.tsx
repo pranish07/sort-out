@@ -77,7 +77,7 @@ export default function AIReplierScreen() {
           <View className="mb-4">
             <Text className="text-base font-semibold text-navy mb-2">Context</Text>
             <TextInput
-              className="bg-white rounded-2xl px-4 py-4 text-base text-navy shadow-soft"
+              className="bg-white rounded-2xl px-4 py-4 text-base text-navy shadow-md"
               placeholder="e.g., Should I buy this dress?"
               placeholderTextColor="#94A3B8"
               value={context}
@@ -107,7 +107,7 @@ export default function AIReplierScreen() {
               </View>
             ) : (
               <TouchableOpacity
-                className="bg-white rounded-2xl p-8 shadow-soft items-center border-2 border-dashed border-beige-200"
+                className="bg-white rounded-2xl p-8 shadow-md items-center border-2 border-dashed border-beige-200"
                 onPress={pickImage}
               >
                 <Ionicons name="image-outline" size={48} color="#CDB48C" />
@@ -118,7 +118,7 @@ export default function AIReplierScreen() {
 
           {/* Generate Button */}
           <TouchableOpacity
-            className={`bg-teal rounded-2xl py-4 items-center shadow-soft mb-6 ${
+            className={`bg-teal rounded-2xl py-4 items-center shadow-md mb-6 ${
               loading || (!context.trim() && !imageUri) ? 'opacity-50' : ''
             }`}
             onPress={generateReply}
@@ -131,7 +131,7 @@ export default function AIReplierScreen() {
 
           {/* Reply */}
           {reply && (
-            <View className="bg-white rounded-2xl p-5 shadow-soft-lg">
+            <View className="bg-white rounded-2xl p-5 shadow-lg">
               <View className="flex-row items-center mb-3">
                 <View className="w-10 h-10 bg-teal-100 rounded-full items-center justify-center">
                   <Ionicons name="chatbubble-ellipses" size={20} color="#14B8A6" />

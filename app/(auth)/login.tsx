@@ -67,7 +67,7 @@ export default function LoginScreen() {
           </Text>
         </View>
 
-        <View className="bg-white rounded-3xl p-6 shadow-soft-lg">
+        <View className="bg-white rounded-3xl p-6 shadow-lg">
           <Text className="text-2xl font-bold text-navy mb-6">Welcome Back</Text>
 
           <View className="mb-4">
@@ -145,10 +145,10 @@ export default function LoginScreen() {
           </View>
 
           <View className="flex-row justify-center gap-4">
-            <TouchableOpacity className="bg-white rounded-2xl p-4 shadow-soft flex-1 items-center">
+            <TouchableOpacity className="bg-white rounded-2xl p-4 shadow-md flex-1 items-center">
               <Ionicons name="logo-google" size={24} color="#EA4335" />
             </TouchableOpacity>
-            <TouchableOpacity className="bg-white rounded-2xl p-4 shadow-soft flex-1 items-center">
+            <TouchableOpacity className="bg-white rounded-2xl p-4 shadow-md flex-1 items-center">
               <Ionicons name="logo-apple" size={24} color="#000000" />
             </TouchableOpacity>
           </View>

@@ -18,7 +18,7 @@ export default function RequirementsMatcher() {
 
   if (!isCompleted) {
     return (
-      <View className="bg-white rounded-3xl p-6 shadow-soft-lg">
+      <View className="bg-white rounded-3xl p-6 shadow-lg">
         <Text className="text-lg font-bold text-navy mb-4">Requirements Matcher</Text>
         <View className="bg-surface rounded-2xl p-6 items-center border border-dashed border-teal/30">
             <Ionicons name="git-compare" size={32} color="#14B8A6" />
@@ -29,7 +29,7 @@ export default function RequirementsMatcher() {
   }
 
   return (
-    <View className="bg-white rounded-3xl p-6 shadow-soft-lg">
+    <View className="bg-white rounded-3xl p-6 shadow-lg">
       <View className="flex-row justify-between items-center mb-6">
         <Text className="text-lg font-bold text-navy">Requirements Matcher</Text>
         <View className="flex-row gap-4">

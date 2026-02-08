@@ -78,7 +78,7 @@ export default function SignupScreen() {
           </Text>
         </View>
 
-        <View className="bg-white rounded-3xl p-6 shadow-soft-lg">
+        <View className="bg-white rounded-3xl p-6 shadow-lg">
           <View className="mb-4">
             <Text className="text-sm font-medium text-navy-700 mb-2">Name</Text>
             <TextInput

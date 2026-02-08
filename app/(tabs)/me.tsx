@@ -47,7 +47,7 @@ export default function MeScreen() {
 
         {/* Profile Section */}
         <View className="px-6 mb-6">
-          <View className="bg-white rounded-3xl p-6 shadow-soft">
+          <View className="bg-white rounded-3xl p-6 shadow-md">
             <View className="items-center mb-4">
               <View className="w-24 h-24 bg-teal-100 rounded-full items-center justify-center mb-3">
                 <Text className="text-4xl font-bold text-teal">
@@ -87,7 +87,7 @@ export default function MeScreen() {
         <View className="px-6 mb-6">
           <Text className="text-lg font-bold text-navy mb-3">AI Features</Text>
           <TouchableOpacity
-            className="bg-white rounded-2xl p-4 shadow-soft flex-row items-center"
+            className="bg-white rounded-2xl p-4 shadow-md flex-row items-center"
             onPress={() => router.push('/ai-replier')}
           >
             <View className="w-12 h-12 bg-teal-100 rounded-full items-center justify-center">
@@ -104,7 +104,7 @@ export default function MeScreen() {
         {/* Notifications */}
         <View className="px-6 mb-6">
           <Text className="text-lg font-bold text-navy mb-3">Notifications</Text>
-          <View className="bg-white rounded-2xl p-4 shadow-soft">
+          <View className="bg-white rounded-2xl p-4 shadow-md">
             <View className="flex-row items-center justify-between mb-4">
               <View className="flex-1">
                 <Text className="text-base font-semibold text-navy">Push Notifications</Text>
@@ -136,7 +136,7 @@ export default function MeScreen() {
         {/* Account */}
         <View className="px-6 mb-6">
           <Text className="text-lg font-bold text-navy mb-3">Account</Text>
-          <View className="bg-white rounded-2xl shadow-soft overflow-hidden">
+          <View className="bg-white rounded-2xl shadow-md overflow-hidden">
             <TouchableOpacity className="p-4 flex-row items-center justify-between">
               <View className="flex-row items-center">
                 <Ionicons name="person-outline" size={20} color="#1E293B" />
@@ -168,7 +168,7 @@ export default function MeScreen() {
         {/* Sign Out */}
         <View className="px-6 mb-8">
           <TouchableOpacity
-            className="bg-white rounded-2xl p-4 shadow-soft flex-row items-center justify-center"
+            className="bg-white rounded-2xl p-4 shadow-md flex-row items-center justify-center"
             onPress={handleSignOut}
           >
             <Ionicons name="log-out-outline" size={20} color="#EF4444" />

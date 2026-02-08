@@ -155,9 +155,9 @@ export default function PlayScreen() {
                             <TouchableOpacity 
                                 key={index}
                                 activeOpacity={0.8}
-                                onPress={() => !card.locked && openDeck(card.title)}
-                                className={`bg-white rounded-[32px] p-6 mb-5 shadow-soft border border-surface-200 items-center justify-center ${card.locked ? 'opacity-70' : ''}`}
-                                style={{ width: (width - 60) / 2 }}
+                    onPress={() => !card.locked && openDeck(card.title)}
+                    className={`bg-white rounded-3xl p-6 mb-5 shadow-md border border-surface-200 items-center justify-center ${card.locked ? 'opacity-70' : ''}`}
+                    style={{ width: (width - 60) / 2 }}
                             >
                                 <View className="w-16 h-16 bg-teal-50 rounded-3xl items-center justify-center mb-4">
                                     <Text className="text-4xl">{card.emoji}</Text>

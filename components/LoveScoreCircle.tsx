@@ -14,7 +14,7 @@ export default function LoveScoreCircle({ score, isCompleted = true }: LoveScore
 
   if (!isCompleted) {
     return (
-      <View className="bg-white rounded-3xl p-6 items-center shadow-soft-lg">
+      <View className="bg-white rounded-3xl p-6 items-center shadow-lg">
         <Text className="text-lg font-bold text-navy mb-4">Relationship Score</Text>
         <View className="w-40 h-40 bg-surface rounded-full items-center justify-center border-4 border-dashed border-teal/30">
           <Text className="text-teal text-4xl font-black">?</Text>

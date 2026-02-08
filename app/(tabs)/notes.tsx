@@ -15,14 +15,14 @@ export default function NotesScreen() {
           <Text className="text-3xl font-bold text-navy">Journal</Text>
           <TouchableOpacity 
             activeOpacity={0.7}
-            className="w-12 h-12 bg-teal rounded-full items-center justify-center shadow-soft"
+            className="w-12 h-12 bg-teal rounded-full items-center justify-center shadow-md"
           >
             <Ionicons name="add" size={24} color="white" />
           </TouchableOpacity>
         </View>
 
         {/* Tabs */}
-        <View className="flex-row bg-white rounded-2xl p-1 shadow-soft mb-6">
+        <View className="flex-row bg-white rounded-2xl p-1 shadow-md mb-6">
           <TouchableOpacity
             activeOpacity={0.8}
             className={`flex-1 py-3 rounded-xl ${
@@ -58,7 +58,7 @@ export default function NotesScreen() {
         {/* Calendar Strip */}
         <TouchableOpacity
           activeOpacity={0.7}
-          className="bg-white rounded-2xl p-4 shadow-soft flex-row items-center justify-between mb-6"
+          className="bg-white rounded-2xl p-4 shadow-md flex-row items-center justify-between mb-6"
           onPress={() => setShowCalendar(!showCalendar)}
         >
           <View className="flex-row items-center">
@@ -98,7 +98,7 @@ export default function NotesScreen() {
 
             <TouchableOpacity 
               activeOpacity={0.7}
-              className="bg-white rounded-2xl p-4 shadow-soft"
+              className="bg-white rounded-2xl p-4 shadow-md"
             >
               <View className="flex-row items-center">
                 <View className="w-12 h-12 bg-blush-100 rounded-full items-center justify-center">
