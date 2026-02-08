@@ -3,9 +3,14 @@ export interface User {
     email: string;
     displayName: string;
     photoURL?: string;
-    age: number;
-    gender: 'male' | 'female' | 'other';
-    relationshipStatus: 'dating' | 'engaged' | 'married';
+    age?: number;
+    gender?: 'male' | 'female' | 'other';
+    relationshipStatus?: 'single' | 'dating' | 'relationship' | 'engaged' | 'married';
+    hasCompletedOnboarding: boolean;
+    primaryGoal?: string;
+    checkInFrequency?: string;
+    loveLanguage?: string;
+    relationshipDuration?: string;
     partnerId?: string;
     partnerInviteCode?: string;
     createdAt: Date;

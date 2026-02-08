@@ -32,7 +32,15 @@ export default function LoginScreen() {
     try {
       const user = await signInWithEmail(email, password);
       setUser(user);
-      router.replace('/(tabs)/home');
+      
+      if (user.hasCompletedOnboarding) {
+        router.replace('/(tabs)/home');
+      } else {
+        router.replace({
+          pathname: '/(auth)/onboarding',
+          params: { email, displayName: user.displayName }
+        });
+      }
     } catch (error: any) {
       Alert.alert('Login Failed', error.message);
     } finally {

@@ -6,10 +6,17 @@ const USER_KEY = '@sortout_user';
 
 export async function signInWithEmail(email: string, password: string): Promise<User> {
     // For offline mode, just create/retrieve a local user
+    // In a real app, you'd fetch this from a database
+    const userJson = await AsyncStorage.getItem(USER_KEY);
+    if (userJson) {
+        return JSON.parse(userJson);
+    }
+
     const user: User = {
         id: 'local-user-' + Date.now(),
         email,
         displayName: email.split('@')[0],
+        hasCompletedOnboarding: false,
         createdAt: new Date(),
         updatedAt: new Date(),
     };
@@ -20,20 +27,14 @@ export async function signInWithEmail(email: string, password: string): Promise<
 export async function signUpWithEmail(
     email: string,
     password: string,
-    additionalData?: {
-        displayName?: string;
-        age?: number;
-        gender?: string;
-        relationshipStatus?: string;
-    }
+    additionalData?: Partial<User>
 ): Promise<User> {
     const user: User = {
         id: 'local-user-' + Date.now(),
         email,
         displayName: additionalData?.displayName || email.split('@')[0],
-        age: additionalData?.age,
-        gender: additionalData?.gender as any,
-        relationshipStatus: additionalData?.relationshipStatus as any,
+        hasCompletedOnboarding: additionalData?.hasCompletedOnboarding || false,
+        ...additionalData,
         createdAt: new Date(),
         updatedAt: new Date(),
     };
