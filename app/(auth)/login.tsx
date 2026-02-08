@@ -61,7 +61,7 @@ export default function LoginScreen() {
           <View className="w-20 h-20 bg-teal rounded-full items-center justify-center mb-4">
             <Ionicons name="heart" size={40} color="white" />
           </View>
-          <Text className="text-4xl font-bold text-navy mb-2">SortOut</Text>
+          <Text className="text-4xl font-bold text-navy mb-2">Knot</Text>
           <Text className="text-base text-navy-600 text-center">
             Grow together, stay connected
           </Text>

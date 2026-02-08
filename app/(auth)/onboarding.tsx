@@ -132,7 +132,7 @@ export default function OnboardingScreen() {
   const renderStep2 = () => (
     <View className="flex-1">
       <Text className="text-2xl font-bold text-navy mb-2">Primary Goal</Text>
-      <Text className="text-base text-navy-600 mb-6">What do you want to achieve with SortOut?</Text>
+      <Text className="text-base text-navy-600 mb-6">What do you want to achieve with Knot?</Text>
       <View className="gap-4">
         {[
           { value: 'Stay connected', icon: 'wifi-outline' },

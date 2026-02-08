@@ -1,4 +1,4 @@
-# SortOut App
+# Knot App
 
 A complete, production-ready Expo app for couples to improve their relationship through AI-powered guidance.
 

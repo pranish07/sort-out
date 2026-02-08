@@ -1,12 +1,12 @@
 {
     "expo": {
-        "name": "SortOut",
-        "slug": "sortout",
+        "name": "Knot",
+        "slug": "knot",
         "version": "1.0.0",
         "orientation": "portrait",
         "icon": "./assets/icon.png",
         "userInterfaceStyle": "automatic",
-        "scheme": "sortout",
+        "scheme": "knot",
         "splash": {
             "image": "./assets/splash.png",
             "resizeMode": "contain",
@@ -17,14 +17,14 @@
         ],
         "ios": {
             "supportsTablet": true,
-            "bundleIdentifier": "com.sortout.app"
+            "bundleIdentifier": "com.knot.app"
         },
         "android": {
             "adaptiveIcon": {
                 "foregroundImage": "./assets/adaptive-icon.png",
                 "backgroundColor": "#FFEBE9"
             },
-            "package": "com.sortout.app"
+            "package": "com.knot.app"
         },
         "web": {
             "favicon": "./assets/favicon.png",

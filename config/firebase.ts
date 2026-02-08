@@ -1,5 +1,5 @@
 // Offline-only config - no Firebase needed
 export const config = {
-    appName: 'SortOut',
+    appName: 'Knot',
     version: '1.0.0',
 };
