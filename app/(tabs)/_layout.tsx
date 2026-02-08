@@ -1,3 +1,4 @@
+import { View } from 'react-native';
 import { Tabs } from 'expo-router';
 import { Ionicons } from '@expo/vector-icons';
 
@@ -44,13 +45,34 @@ export default function TabsLayout() {
       <Tabs.Screen
         name="sortout"
         options={{
-          title: 'Sort Out',
-          tabBarIcon: ({ color, size }) => (
-            <Ionicons name="heart-circle" size={size + 4} color={color} />
+          tabBarLabel: 'Sort Out',
+          tabBarIcon: ({ color, focused }) => (
+            <View 
+              style={{
+                width: 64,
+                height: 64,
+                backgroundColor: '#14B8A6',
+                borderRadius: 32,
+                justifyContent: 'center',
+                alignItems: 'center',
+                marginBottom: 30, // Lift it up
+                shadowColor: '#14B8A6',
+                shadowOffset: { width: 0, height: 4 },
+                shadowOpacity: 0.3,
+                shadowRadius: 8,
+                elevation: 5,
+                borderWidth: 4,
+                borderColor: '#FFFFFF',
+              }}
+            >
+              <Ionicons name="flash" size={32} color="white" />
+            </View>
           ),
           tabBarLabelStyle: {
             fontSize: 12,
             fontWeight: '700',
+            color: '#14B8A6',
+            marginTop: 0,
           },
         }}
       />

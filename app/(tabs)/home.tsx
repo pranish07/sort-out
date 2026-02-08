@@ -45,22 +45,20 @@ export default function HomeScreen() {
               </Text>
             </View>
             <TouchableOpacity className="w-12 h-12 bg-white rounded-full items-center justify-center shadow-soft">
-              <Ionicons name="notifications-outline" size={24} color="#1E293B" />
+              <Ionicons name="settings-outline" size={24} color="#1E293B" />
             </TouchableOpacity>
           </View>
         </View>
 
         {/* Love Score */}
         <View className="px-6 mb-6">
-          <LoveScoreCircle score={couple?.loveScore || 75} />
+          <LoveScoreCircle score={couple?.loveScore || 72} />
         </View>
 
         {/* Partner Status */}
-        {partner && (
-          <View className="px-6 mb-6">
-            <PartnerStatus partner={partner} />
-          </View>
-        )}
+        <View className="px-6 mb-6">
+          <PartnerStatus partner={partner} />
+        </View>
 
         {/* Drift Detector */}
         <View className="px-6 mb-6">

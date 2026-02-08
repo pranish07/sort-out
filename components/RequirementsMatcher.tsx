@@ -12,7 +12,19 @@ export default function RequirementsMatcher() {
 
   return (
     <View className="bg-white rounded-3xl p-6 shadow-soft-lg">
-      <Text className="text-lg font-bold text-navy mb-4">Requirements Matcher</Text>
+      <View className="flex-row justify-between items-center mb-6">
+        <Text className="text-lg font-bold text-navy">Requirements Matcher</Text>
+        <View className="flex-row gap-4">
+          <View className="flex-row items-center">
+            <View className="w-3 h-3 bg-teal rounded-full" />
+            <Text className="ml-2 text-xs font-bold text-navy-600">You</Text>
+          </View>
+          <View className="flex-row items-center">
+            <View className="w-3 h-3 bg-sage-400 rounded-full" />
+            <Text className="ml-2 text-xs font-bold text-navy-600">Partner</Text>
+          </View>
+        </View>
+      </View>
       
       {requirements.map((req, index) => (
         <View key={index} className="mb-4">
@@ -45,17 +57,6 @@ export default function RequirementsMatcher() {
           </View>
         </View>
       ))}
-
-      <View className="flex-row justify-end gap-4 mt-2">
-        <View className="flex-row items-center">
-          <View className="w-3 h-3 bg-teal rounded-full" />
-          <Text className="ml-2 text-xs text-navy-600">You</Text>
-        </View>
-        <View className="flex-row items-center">
-          <View className="w-3 h-3 bg-sage-400 rounded-full" />
-          <Text className="ml-2 text-xs text-navy-600">Partner</Text>
-        </View>
-      </View>
     </View>
   );
 }
