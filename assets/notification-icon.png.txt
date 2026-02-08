@@ -1,0 +1,14 @@
+# Placeholder for Notification Icon
+
+This is a placeholder file. Replace with actual notification icon (96x96 PNG).
+
+## Design Specifications:
+- Size: 96x96 pixels
+- Format: PNG
+- Design: Simple heart outline in white
+- Background: Transparent
+- Style: Monochrome, suitable for notification tray
+
+Android notification icon requirements:
+- Must be white icon on transparent background
+- Will be tinted by system

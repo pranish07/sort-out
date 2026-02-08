@@ -1,0 +1,13 @@
+# Placeholder for Adaptive Icon (Android)
+
+This is a placeholder file. Replace with actual adaptive icon image (1024x1024 PNG).
+
+## Design Specifications:
+- Size: 1024x1024 pixels
+- Format: PNG
+- Design: Same as app icon but optimized for Android adaptive icons
+- Safe zone: Keep important elements within center 66% (684x684 pixels)
+- Background: Soft blush pink (#FFEBE9)
+- Foreground: Heart symbol in teal (#14B8A6)
+
+Android will automatically apply shape masks (circle, rounded square, etc.)

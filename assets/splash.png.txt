@@ -1,0 +1,17 @@
+# Placeholder for Splash Screen
+
+This is a placeholder file. Replace with actual splash screen image (1284x2778 PNG for iPhone 14 Pro Max).
+
+## Design Specifications:
+- Size: 1284x2778 pixels (iPhone 14 Pro Max)
+- Format: PNG
+- Background: Soft blush pink (#FFEBE9)
+- Center: Large heart icon in teal (#14B8A6)
+- Text: "SortOut" in deep navy (#1E293B)
+- Tagline: "Grow together, stay connected" in lighter navy
+- Style: Minimal, warm, empathetic
+
+You can create this splash screen using:
+- Figma, Sketch, or Adobe Illustrator
+- Canva with custom dimensions
+- Hire a designer on Fiverr or similar platforms

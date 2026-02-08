@@ -1,0 +1,15 @@
+# Placeholder for App Icon
+
+This is a placeholder file. Replace with actual app icon image (1024x1024 PNG).
+
+## Design Specifications:
+- Size: 1024x1024 pixels
+- Format: PNG
+- Design: Modern heart symbol in teal (#14B8A6) on soft blush pink (#FFEBE9) background
+- Style: Minimal, flat design
+- No text, just the heart symbol centered
+
+You can create this icon using:
+- Figma, Sketch, or Adobe Illustrator
+- Online icon generators
+- Hire a designer on Fiverr or similar platforms

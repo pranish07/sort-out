@@ -1,0 +1,11 @@
+# Placeholder for Favicon (Web)
+
+This is a placeholder file. Replace with actual favicon (48x48 PNG).
+
+## Design Specifications:
+- Size: 48x48 pixels (or 32x32)
+- Format: PNG or ICO
+- Design: Simplified heart icon in teal
+- Background: Transparent or blush pink
+
+For web version of the app.
