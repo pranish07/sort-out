@@ -40,22 +40,22 @@ export default function HomeScreen() {
         }
       >
         {/* Header */}
-        <View className="px-6 pt-4 pb-6">
+        <View className="bg-teal pt-12 pb-16 px-6 rounded-b-[48px] shadow-lg">
           <View className="flex-row justify-between items-center">
             <View>
-              <Text className="text-navy-400 font-bold text-xs uppercase tracking-widest">Welcome back</Text>
-              <Text className="text-3xl font-bold text-navy">{user?.displayName || 'Partner'}</Text>
+              <Text className="text-white/80 text-lg font-medium">Welcome back,</Text>
+              <Text className="text-3xl font-bold text-white">{user?.displayName || 'Partner'}</Text>
             </View>
             <TouchableOpacity 
               onPress={() => router.push('/(tabs)/me')}
-              className="w-12 h-12 bg-white rounded-full items-center justify-center shadow-md"
+              className="w-12 h-12 bg-white/20 rounded-full items-center justify-center border border-white/30"
             >
-              <Ionicons name="settings-outline" size={24} color="#0F172A" />
+              <Ionicons name="settings-outline" size={24} color="white" />
             </TouchableOpacity>
           </View>
         </View>
 
-        <View className="px-6 pb-12">
+        <View className="px-6 pb-12 -mt-8">
           {/* Partner Status Section */}
           <View className="mb-6">
             <PartnerStatus partner={partner} />

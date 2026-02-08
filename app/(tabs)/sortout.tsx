@@ -8,20 +8,21 @@ export default function SortOutScreen() {
 
   return (
     <SafeAreaView className="flex-1 bg-surface">
-      {/* Header */}
-      <View className="px-6 pt-4 pb-6">
-        <View className="flex-row justify-between items-center">
-          <View>
-            <Text className="text-3xl font-bold text-navy">Sort Out</Text>
-            <Text className="text-base text-navy-600 mt-1">
-              Work through challenges together
-            </Text>
-          </View>
-          <View className="w-12 h-12 bg-teal-100 rounded-full items-center justify-center">
-            <Ionicons name="heart-circle" size={32} color="#14B8A6" />
+      <View className="flex-1">
+        {/* Header */}
+        <View className="bg-teal pt-12 pb-16 px-6 rounded-b-[48px] shadow-lg">
+          <View className="flex-row justify-between items-center">
+            <View>
+              <Text className="text-white/80 text-lg font-medium">Resolution Tools</Text>
+              <Text className="text-3xl font-bold text-white">Sort Out</Text>
+            </View>
+            <View className="w-12 h-12 bg-white/20 rounded-full items-center justify-center border border-white/30">
+              <Ionicons name="heart-circle" size={32} color="white" />
+            </View>
           </View>
         </View>
-      </View>
+
+        <View className="flex-1 -mt-8">
 
       {/* New Sort Out Button */}
       <View className="px-6 mb-6">
@@ -77,7 +78,9 @@ export default function SortOutScreen() {
             <Text className="ml-3 text-sm font-medium text-navy-600">60%</Text>
           </View>
         </TouchableOpacity> */}
-      </ScrollView>
-    </SafeAreaView>
-  );
+        </ScrollView>
+      </View>
+    </View>
+  </SafeAreaView>
+);
 }

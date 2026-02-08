@@ -39,11 +39,21 @@ export default function MeScreen() {
 
   return (
     <SafeAreaView className="flex-1 bg-surface">
-      <ScrollView className="flex-1">
+      <View className="flex-1">
         {/* Header */}
-        <View className="px-6 pt-4 pb-6">
-          <Text className="text-3xl font-bold text-navy">Settings</Text>
+        <View className="bg-teal pt-12 pb-16 px-6 rounded-b-[48px] shadow-lg">
+          <View className="flex-row justify-between items-center">
+            <View>
+              <Text className="text-white/80 text-lg font-medium">Your Profile</Text>
+              <Text className="text-3xl font-bold text-white">Settings</Text>
+            </View>
+            <View className="w-12 h-12 bg-white/20 rounded-full items-center justify-center border border-white/30">
+              <Ionicons name="person-circle" size={32} color="white" />
+            </View>
+          </View>
         </View>
+
+        <ScrollView className="flex-1 -mt-8">
 
         {/* Profile Section */}
         <View className="px-6 mb-6">
@@ -182,6 +192,7 @@ export default function MeScreen() {
           <Text className="text-xs text-navy-400 mt-1">Made with ❤️ for couples</Text>
         </View>
       </ScrollView>
-    </SafeAreaView>
-  );
+    </View>
+  </SafeAreaView>
+);
 }

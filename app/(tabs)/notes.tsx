@@ -9,17 +9,24 @@ export default function NotesScreen() {
 
   return (
     <SafeAreaView className="flex-1 bg-surface">
-      <View className="flex-1 px-6 pt-4 pb-4">
+      <View className="flex-1">
         {/* Header */}
-        <View className="flex-row justify-between items-center mb-6">
-          <Text className="text-3xl font-bold text-navy">Journal</Text>
-          <TouchableOpacity 
-            activeOpacity={0.7}
-            className="w-12 h-12 bg-teal rounded-full items-center justify-center shadow-md"
-          >
-            <Ionicons name="add" size={24} color="white" />
-          </TouchableOpacity>
+        <View className="bg-teal pt-12 pb-16 px-6 rounded-b-[48px] shadow-lg">
+          <View className="flex-row justify-between items-center">
+            <View>
+              <Text className="text-white/80 text-lg font-medium">Capture Moments</Text>
+              <Text className="text-3xl font-bold text-white">Journal</Text>
+            </View>
+            <TouchableOpacity 
+              activeOpacity={0.7}
+              className="w-12 h-12 bg-white/20 rounded-full items-center justify-center border border-white/30"
+            >
+              <Ionicons name="add" size={24} color="white" />
+            </TouchableOpacity>
+          </View>
         </View>
+
+        <View className="flex-1 px-6 -mt-8">
 
         {/* Tabs */}
         <View className="flex-row bg-white rounded-2xl p-1 shadow-md mb-6">
@@ -114,6 +121,7 @@ export default function NotesScreen() {
           </View>
         </ScrollView>
       </View>
-    </SafeAreaView>
-  );
+    </View>
+  </SafeAreaView>
+);
 }
