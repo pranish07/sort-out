@@ -3,13 +3,28 @@ import Svg, { Circle } from 'react-native-svg';
 
 interface LoveScoreCircleProps {
   score: number;
+  isCompleted?: boolean;
 }
 
-export default function LoveScoreCircle({ score }: LoveScoreCircleProps) {
+export default function LoveScoreCircle({ score, isCompleted = true }: LoveScoreCircleProps) {
   const radius = 80;
   const strokeWidth = 12;
   const circumference = 2 * Math.PI * radius;
   const progress = (score / 100) * circumference;
+
+  if (!isCompleted) {
+    return (
+      <View className="bg-white rounded-3xl p-6 items-center shadow-soft-lg">
+        <Text className="text-lg font-bold text-navy mb-4">Relationship Score</Text>
+        <View className="w-40 h-40 bg-surface rounded-full items-center justify-center border-4 border-dashed border-teal/30">
+          <Text className="text-teal text-4xl font-black">?</Text>
+        </View>
+        <Text className="mt-6 text-sm text-navy-400 text-center font-medium">
+          Take the assessment better understand your connection score.
+        </Text>
+      </View>
+    );
+  }
 
   return (
     <View style={{
