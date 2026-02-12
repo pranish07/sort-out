@@ -15,7 +15,7 @@ Sort Out helps partners strengthen their bond through guided assessments, confli
 | **Drift Detector** | Track emotional distance trends over time and get alerted before small gaps become big ones |
 | **Sort Out (Conflict Resolution)** | A guided, step-by-step flow for working through disagreements in a healthy way |
 | **Shared Notes / Journal** | A private space for couples to write, reflect, and share thoughts together |
-| **AI Replier** | Get fun, AI-generated reply suggestions powered by OpenAI |
+| **AI Replier** | Get fun, AI-generated reply suggestions powered by Google Gemini |
 | **Partner Pairing** | Link your account with your partner's via a pairing code |
 | **Onboarding Flow** | A multi-step onboarding experience to personalize the app on first launch |
 | **Daily Tips** | Get a fresh relationship tip every day on your home screen |
@@ -34,7 +34,7 @@ Sort Out helps partners strengthen their bond through guided assessments, confli
 | State Management | [Zustand v5](https://zustand-demo.pmnd.rs/) |
 | Server State | [TanStack React Query v5](https://tanstack.com/query) |
 | Auth & Database | [Supabase](https://supabase.com/) (Auth, Postgres, Realtime) |
-| AI | [OpenAI API](https://platform.openai.com/) |
+| AI | [Google Gemini API](https://ai.google.dev/) |
 | Animations | React Native Reanimated 4 |
 | Local Storage | AsyncStorage + Expo Secure Store |
 
@@ -72,7 +72,7 @@ sort-out/
 │   └── firebase.ts             # Firebase config (legacy)
 ├── services/                   # Business logic & API calls
 │   ├── auth.ts                 # Supabase auth (sign in, sign up, sign out)
-│   └── openai.ts               # OpenAI API integration
+│   └── ai.ts                   # Google Gemini AI integration
 ├── store/                      # Global state
 │   └── userStore.ts            # Zustand store (user, partner, assessments)
 ├── types/                      # TypeScript type definitions
@@ -122,7 +122,7 @@ You'll need:
 | Service | What to set up |
 |---|---|
 | **Supabase** | Create a project at [supabase.com](https://supabase.com) → copy the **Project URL** and **Anon Key** |
-| **OpenAI** | Get an API key from [platform.openai.com](https://platform.openai.com/) |
+| **Gemini** | Get an API key from [ai.google.dev](https://ai.google.dev/) |
 
 Your `.env` should look like:
 
@@ -130,7 +130,7 @@ Your `.env` should look like:
 EXPO_PUBLIC_SUPABASE_URL=https://your-project.supabase.co
 EXPO_PUBLIC_SUPABASE_ANON_KEY=your-anon-key
 
-EXPO_PUBLIC_OPENAI_API_KEY=your-openai-key
+EXPO_PUBLIC_GEMINI_API_KEY=your-gemini-key
 ```
 
 ### 3. Run the App

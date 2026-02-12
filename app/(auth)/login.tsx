@@ -65,10 +65,12 @@ export default function LoginScreen() {
     <KeyboardAvoidingView
       behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
       className="flex-1 bg-surface"
+      keyboardVerticalOffset={Platform.OS === 'ios' ? 0 : 40}
     >
       <ScrollView
-        contentContainerClassName="flex-grow justify-center px-6 py-8"
+        contentContainerClassName="flex-grow px-6 pt-8 pb-20"
         keyboardShouldPersistTaps="handled"
+        showsVerticalScrollIndicator={false}
       >
         <View className="items-center mb-12">
           <View className="w-20 h-20 bg-teal rounded-full items-center justify-center mb-4">

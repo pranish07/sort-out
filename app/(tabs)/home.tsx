@@ -1,6 +1,7 @@
 import { View, Text, ScrollView, TouchableOpacity, RefreshControl } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { useState, useMemo } from 'react';
+import { useState, useMemo, useRef } from 'react';
+import { useScrollToTop } from '@react-navigation/native';
 import { useUserStore } from '@/store/userStore';
 import { Ionicons } from '@expo/vector-icons';
 import { useRouter } from 'expo-router';
@@ -17,6 +18,9 @@ export default function HomeScreen() {
   const userAssessment = useUserStore((state) => state.userAssessment);
   const partnerAssessment = useUserStore((state) => state.partnerAssessment);
   const [refreshing, setRefreshing] = useState(false);
+  const scrollRef = useRef<ScrollView>(null);
+
+  useScrollToTop(scrollRef);
 
   const onRefresh = () => {
     setRefreshing(true);
@@ -35,6 +39,7 @@ export default function HomeScreen() {
   return (
     <SafeAreaView className="flex-1 bg-surface">
       <ScrollView
+        ref={scrollRef}
         className="flex-1"
         refreshControl={
           <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />

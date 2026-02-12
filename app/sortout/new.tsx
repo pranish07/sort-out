@@ -12,14 +12,19 @@ import {
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useRouter } from 'expo-router';
 import { Ionicons } from '@expo/vector-icons';
+import { useUserStore } from '@/store/userStore';
+import { createIssue } from '@/services/sortout';
+import { ActivityIndicator } from 'react-native';
 
 export default function NewSortOutScreen() {
   const router = useRouter();
+  const { user, partner } = useUserStore();
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
   const [isRecording, setIsRecording] = useState(false);
+  const [loading, setLoading] = useState(false);
 
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
     if (!title.trim()) {
       Alert.alert('Error', 'Please provide a title for this issue');
       return;
@@ -30,19 +35,32 @@ export default function NewSortOutScreen() {
       return;
     }
 
-    // TODO: Save to Firebase
-    Alert.alert(
-      'Sort Out Created',
-      'Your perspective has been saved. Your partner can now add theirs.',
-      [{ text: 'OK', onPress: () => router.back() }]
-    );
+    if (!user) {
+      Alert.alert('Error', 'You must be logged in to create an issue');
+      return;
+    }
+
+    setLoading(true);
+    try {
+      await createIssue(user.id, partner?.id, title, description);
+      Alert.alert(
+        'Sort Out Created',
+        'Your perspective has been saved. Your partner can now add theirs.',
+        [{ text: 'OK', onPress: () => router.back() }]
+      );
+    } catch (error: any) {
+      Alert.alert('Error', error.message || 'Failed to create issue');
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
-    <SafeAreaView className="flex-1 bg-blush-50">
+    <SafeAreaView className="flex-1 bg-surface">
       <KeyboardAvoidingView
         behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
         className="flex-1"
+        keyboardVerticalOffset={Platform.OS === 'ios' ? 0 : 40}
       >
         {/* Header */}
         <View className="px-6 pt-4 pb-4 flex-row items-center justify-between">
@@ -53,7 +71,11 @@ export default function NewSortOutScreen() {
           <View style={{ width: 28 }} />
         </View>
 
-        <ScrollView className="flex-1 px-6">
+        <ScrollView 
+          className="flex-1 px-6"
+          contentContainerClassName="pb-32"
+          showsVerticalScrollIndicator={false}
+        >
           {/* Info Card */}
           <View className="bg-teal-50 rounded-2xl p-4 mb-6 flex-row">
             <Ionicons name="information-circle" size={24} color="#14B8A6" />
@@ -121,15 +143,19 @@ export default function NewSortOutScreen() {
         </ScrollView>
 
         {/* Submit Button */}
-        <View className="px-6 pb-6 pt-4 bg-blush-50">
+        <View className="px-6 pb-6 pt-4 bg-surface">
           <TouchableOpacity
             className={`bg-teal rounded-2xl py-4 items-center shadow-md ${
-              !title.trim() || !description.trim() ? 'opacity-50' : ''
+              !title.trim() || !description.trim() || loading ? 'opacity-50' : ''
             }`}
             onPress={handleSubmit}
-            disabled={!title.trim() || !description.trim()}
+            disabled={!title.trim() || !description.trim() || loading}
           >
-            <Text className="text-white text-base font-bold">Submit My Perspective</Text>
+            {loading ? (
+              <ActivityIndicator color="white" />
+            ) : (
+              <Text className="text-white text-base font-bold">Submit My Perspective</Text>
+            )}
           </TouchableOpacity>
         </View>
       </KeyboardAvoidingView>

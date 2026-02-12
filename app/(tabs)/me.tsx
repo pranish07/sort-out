@@ -1,6 +1,7 @@
 import { View, Text, ScrollView, TouchableOpacity, Switch, Alert } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { useState } from 'react';
+import { useState, useRef } from 'react';
+import { useScrollToTop } from '@react-navigation/native';
 import { useRouter } from 'expo-router';
 import { useUserStore } from '@/store/userStore';
 import { signOut } from '@/services/auth';
@@ -13,6 +14,9 @@ export default function MeScreen() {
   const clearAll = useUserStore((state) => state.clearAll);
   const [notificationsEnabled, setNotificationsEnabled] = useState(true);
   const [driftAlertsEnabled, setDriftAlertsEnabled] = useState(true);
+  const scrollRef = useRef<ScrollView>(null);
+
+  useScrollToTop(scrollRef);
 
   const handleSignOut = async () => {
     Alert.alert(
@@ -57,7 +61,7 @@ export default function MeScreen() {
           </View>
         </View>
 
-        <ScrollView className="flex-1 -mt-8">
+        <ScrollView ref={scrollRef} className="flex-1 -mt-8">
 
         {/* Profile Section */}
         <View className="px-6 mb-6">

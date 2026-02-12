@@ -1,8 +1,9 @@
-import { useState } from 'react';
-import { View, Text, ScrollView, TouchableOpacity, Dimensions } from 'react-native';
+import { useState, useEffect, useRef } from 'react';
+import { View, Text, ScrollView, TouchableOpacity, Dimensions, BackHandler } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Ionicons } from '@expo/vector-icons';
 import { useUserStore } from '@/store/userStore';
+import { useScrollToTop } from '@react-navigation/native';
 
 const { width } = Dimensions.get('window');
 
@@ -157,6 +158,26 @@ export default function PlayScreen() {
     const user = useUserStore((state) => state.user);
     const [activeCategory, setActiveCategory] = useState<string | null>(null);
     const [currentCardIndex, setCurrentCardIndex] = useState(0);
+    const scrollRef = useRef<ScrollView>(null);
+
+    useScrollToTop(scrollRef);
+
+    useEffect(() => {
+        const backAction = () => {
+            if (activeCategory) {
+                setActiveCategory(null);
+                return true;
+            }
+            return false;
+        };
+
+        const backHandler = BackHandler.addEventListener(
+            'hardwareBackPress',
+            backAction
+        );
+
+        return () => backHandler.remove();
+    }, [activeCategory]);
 
     const categories = [
         { title: 'Couple Questions', emoji: '🥰', locked: false },
@@ -244,7 +265,7 @@ export default function PlayScreen() {
     return (
         <SafeAreaView className="flex-1 bg-surface">
             {/* Main List */}
-            <ScrollView className="flex-1" showsVerticalScrollIndicator={false}>
+            <ScrollView ref={scrollRef} className="flex-1" showsVerticalScrollIndicator={false}>
                 {/* Header */}
                 <View className="bg-teal pt-12 pb-16 px-6 rounded-b-[48px] shadow-lg">
                     <View className="flex-row justify-between items-center mb-4">

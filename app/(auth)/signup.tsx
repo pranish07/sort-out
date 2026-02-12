@@ -61,10 +61,12 @@ export default function SignupScreen() {
     <KeyboardAvoidingView
       behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
       className="flex-1 bg-surface"
+      keyboardVerticalOffset={Platform.OS === 'ios' ? 0 : 40}
     >
       <ScrollView
-        contentContainerClassName="flex-grow justify-center px-6 py-12"
+        contentContainerClassName="flex-grow px-6 pt-12 pb-28"
         keyboardShouldPersistTaps="handled"
+        showsVerticalScrollIndicator={false}
       >
         <TouchableOpacity
           activeOpacity={0.7}

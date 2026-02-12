@@ -50,7 +50,7 @@ export default function VerifyScreen() {
     setLoading(true);
     try {
       const user = await verifyOTP(email, token);
-      setUser(user);
+      setUser(user as any);
       
       Alert.alert('Success', 'Email verified successfully!', [
         {
@@ -71,11 +71,13 @@ export default function VerifyScreen() {
   return (
     <KeyboardAvoidingView
       behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
-      className="flex-1 bg-surface"
+      className="flex-1"
+      keyboardVerticalOffset={Platform.OS === 'ios' ? 0 : 40}
     >
       <ScrollView
-        contentContainerClassName="flex-grow justify-center px-6 py-12"
+        contentContainerClassName="flex-grow px-6 py-12"
         keyboardShouldPersistTaps="handled"
+        showsVerticalScrollIndicator={false}
       >
         <TouchableOpacity
           activeOpacity={0.7}
@@ -101,7 +103,7 @@ export default function VerifyScreen() {
             {otp.map((digit, index) => (
               <TextInput
                 key={index}
-                ref={(ref) => (inputs.current[index] = ref)}
+                ref={(ref) => { inputs.current[index] = ref; }}
                 className="w-12 h-14 bg-beige-100 rounded-xl text-center text-2xl font-bold text-navy border-2 border-transparent focus:border-teal"
                 keyboardType="number-pad"
                 maxLength={1}

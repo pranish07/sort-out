@@ -6,6 +6,8 @@ import {
   TouchableOpacity,
   ScrollView,
   Alert,
+  KeyboardAvoidingView,
+  Platform,
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useRouter } from 'expo-router';
@@ -84,187 +86,198 @@ export default function PairingScreen() {
 
   return (
     <SafeAreaView className="flex-1 bg-surface">
-      <ScrollView className="flex-1">
-        {/* Header */}
-        <View style={{ padding: 24 }}>
-          <TouchableOpacity onPress={() => router.back()}>
-            <Ionicons name="arrow-back" size={28} color="#1E293B" />
-          </TouchableOpacity>
-          <Text style={{ fontSize: 28, fontWeight: 'bold', color: '#1E293B', marginTop: 16 }}>
-            Pair with Partner
-          </Text>
-          <Text style={{ fontSize: 16, color: '#64748B', marginTop: 8 }}>
-            Connect with your partner to start tracking together
-          </Text>
-        </View>
-
-        {/* Mode Toggle */}
-        <View style={{ flexDirection: 'row', marginHorizontal: 24, marginBottom: 24 }}>
-          <TouchableOpacity
-            style={{
-              flex: 1,
-              paddingVertical: 12,
-              backgroundColor: mode === 'generate' ? '#14B8A6' : '#E2E8F0',
-              borderTopLeftRadius: 12,
-              borderBottomLeftRadius: 12,
-              alignItems: 'center',
-            }}
-            onPress={() => setMode('generate')}
-          >
-            <Text style={{ color: mode === 'generate' ? 'white' : '#64748B', fontWeight: '600' }}>
-              Generate Code
+      <KeyboardAvoidingView 
+        behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+        className="flex-1"
+        keyboardVerticalOffset={Platform.OS === 'ios' ? 0 : 40}
+      >
+        <ScrollView 
+          className="flex-1"
+          contentContainerClassName="pb-12"
+          showsVerticalScrollIndicator={false}
+          keyboardShouldPersistTaps="handled"
+        >
+          {/* Header */}
+          <View style={{ padding: 24 }}>
+            <TouchableOpacity onPress={() => router.back()}>
+              <Ionicons name="arrow-back" size={28} color="#1E293B" />
+            </TouchableOpacity>
+            <Text style={{ fontSize: 28, fontWeight: 'bold', color: '#1E293B', marginTop: 16 }}>
+              Pair with Partner
             </Text>
-          </TouchableOpacity>
-          <TouchableOpacity
-            style={{
-              flex: 1,
-              paddingVertical: 12,
-              backgroundColor: mode === 'join' ? '#14B8A6' : '#E2E8F0',
-              borderTopRightRadius: 12,
-              borderBottomRightRadius: 12,
-              alignItems: 'center',
-            }}
-            onPress={() => setMode('join')}
-          >
-            <Text style={{ color: mode === 'join' ? 'white' : '#64748B', fontWeight: '600' }}>
-              Join Partner
+            <Text style={{ fontSize: 16, color: '#64748B', marginTop: 8 }}>
+              Connect with your partner to start tracking together
             </Text>
-          </TouchableOpacity>
-        </View>
+          </View>
 
-        {mode === 'generate' ? (
-          <View style={{ marginHorizontal: 24 }}>
-            <View style={{
-              backgroundColor: 'white',
-              borderRadius: 24,
-              padding: 32,
-              alignItems: 'center',
-              shadowColor: '#000',
-              shadowOffset: { width: 0, height: 2 },
-              shadowOpacity: 0.1,
-              shadowRadius: 4,
-              elevation: 3,
-            }}>
-              <Text style={{ fontSize: 16, color: '#64748B', marginBottom: 16 }}>
-                Share this code with your partner
-              </Text>
-              
-              {/* Code Display */}
-              <View style={{
-                backgroundColor: '#F0FDF4',
-                paddingVertical: 24,
-                paddingHorizontal: 48,
-                borderRadius: 16,
-                marginBottom: 24,
-                minWidth: 200,
+          {/* Mode Toggle */}
+          <View style={{ flexDirection: 'row', marginHorizontal: 24, marginBottom: 24 }}>
+            <TouchableOpacity
+              style={{
+                flex: 1,
+                paddingVertical: 12,
+                backgroundColor: mode === 'generate' ? '#14B8A6' : '#E2E8F0',
+                borderTopLeftRadius: 12,
+                borderBottomLeftRadius: 12,
                 alignItems: 'center',
-                justifyContent: 'center',
+              }}
+              onPress={() => setMode('generate')}
+            >
+              <Text style={{ color: mode === 'generate' ? 'white' : '#64748B', fontWeight: '600' }}>
+                Generate Code
+              </Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              style={{
+                flex: 1,
+                paddingVertical: 12,
+                backgroundColor: mode === 'join' ? '#14B8A6' : '#E2E8F0',
+                borderTopRightRadius: 12,
+                borderBottomRightRadius: 12,
+                alignItems: 'center',
+              }}
+              onPress={() => setMode('join')}
+            >
+              <Text style={{ color: mode === 'join' ? 'white' : '#64748B', fontWeight: '600' }}>
+                Join Partner
+              </Text>
+            </TouchableOpacity>
+          </View>
+
+          {mode === 'generate' ? (
+            <View style={{ marginHorizontal: 24 }}>
+              <View style={{
+                backgroundColor: 'white',
+                borderRadius: 24,
+                padding: 32,
+                alignItems: 'center',
+                shadowColor: '#000',
+                shadowOffset: { width: 0, height: 2 },
+                shadowOpacity: 0.1,
+                shadowRadius: 4,
+                elevation: 3,
               }}>
-                {loading ? (
-                  <ActivityIndicator color="#14B8A6" size="large" />
-                ) : generatedCode ? (
-                  <Text style={{
-                    fontSize: 36,
-                    fontWeight: 'bold',
-                    color: '#14B8A6',
-                    letterSpacing: 8,
-                  }}>
-                    {generatedCode}
-                  </Text>
-                ) : (
-                  <TouchableOpacity onPress={handleGenerate}>
-                    <Text style={{ color: '#14B8A6', fontWeight: '700' }}>Tap to Generate</Text>
+                <Text style={{ fontSize: 16, color: '#64748B', marginBottom: 16 }}>
+                  Share this code with your partner
+                </Text>
+                
+                {/* Code Display */}
+                <View style={{
+                  backgroundColor: '#F0FDF4',
+                  paddingVertical: 24,
+                  paddingHorizontal: 48,
+                  borderRadius: 16,
+                  marginBottom: 24,
+                  minWidth: 200,
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                }}>
+                  {loading ? (
+                    <ActivityIndicator color="#14B8A6" size="large" />
+                  ) : generatedCode ? (
+                    <Text style={{
+                      fontSize: 36,
+                      fontWeight: 'bold',
+                      color: '#14B8A6',
+                      letterSpacing: 8,
+                    }}>
+                      {generatedCode}
+                    </Text>
+                  ) : (
+                    <TouchableOpacity onPress={handleGenerate}>
+                      <Text style={{ color: '#14B8A6', fontWeight: '700' }}>Tap to Generate</Text>
+                    </TouchableOpacity>
+                  )}
+                </View>
+
+                {generatedCode && !loading && (
+                  <TouchableOpacity
+                    style={{
+                      flexDirection: 'row',
+                      alignItems: 'center',
+                      backgroundColor: '#14B8A6',
+                      paddingVertical: 12,
+                      paddingHorizontal: 24,
+                      borderRadius: 12,
+                    }}
+                    onPress={() => Alert.alert('Copied!', 'Code copied to clipboard')}
+                  >
+                    <Ionicons name="copy-outline" size={20} color="white" />
+                    <Text style={{ color: 'white', fontWeight: '600', marginLeft: 8 }}>
+                      Copy Code
+                    </Text>
                   </TouchableOpacity>
                 )}
               </View>
+            </View>
+          ) : (
+            <View style={{ marginHorizontal: 24 }}>
+              <View style={{
+                backgroundColor: 'white',
+                borderRadius: 24,
+                padding: 24,
+                shadowColor: '#000',
+                shadowOffset: { width: 0, height: 2 },
+                shadowOpacity: 0.1,
+                shadowRadius: 4,
+                elevation: 3,
+              }}>
+                <Text style={{ fontSize: 16, color: '#64748B', marginBottom: 16 }}>
+                  Enter the code from your partner
+                </Text>
+                
+                <TextInput
+                  style={{
+                    backgroundColor: '#F1F5F9',
+                    borderRadius: 12,
+                    padding: 16,
+                    fontSize: 24,
+                    textAlign: 'center',
+                    letterSpacing: 8,
+                    color: '#1E293B',
+                  }}
+                  value={inviteCode}
+                  onChangeText={setInviteCode}
+                  placeholder="ABC123"
+                  placeholderTextColor="#94A3B8"
+                  autoCapitalize="characters"
+                  maxLength={6}
+                />
 
-              {generatedCode && !loading && (
                 <TouchableOpacity
                   style={{
-                    flexDirection: 'row',
-                    alignItems: 'center',
                     backgroundColor: '#14B8A6',
-                    paddingVertical: 12,
-                    paddingHorizontal: 24,
+                    paddingVertical: 16,
                     borderRadius: 12,
+                    alignItems: 'center',
+                    marginTop: 24,
                   }}
-                  onPress={() => Alert.alert('Copied!', 'Code copied to clipboard')}
+                  onPress={handleJoin}
                 >
-                  <Ionicons name="copy-outline" size={20} color="white" />
-                  <Text style={{ color: 'white', fontWeight: '600', marginLeft: 8 }}>
-                    Copy Code
+                  <Text style={{ color: 'white', fontSize: 16, fontWeight: '600' }}>
+                    Join Partner
                   </Text>
                 </TouchableOpacity>
-              )}
+              </View>
             </View>
-          </View>
-        ) : (
-          <View style={{ marginHorizontal: 24 }}>
+          )}
+
+          {/* Info */}
+          <View style={{ marginHorizontal: 24, marginTop: 24 }}>
             <View style={{
-              backgroundColor: 'white',
-              borderRadius: 24,
-              padding: 24,
-              shadowColor: '#000',
-              shadowOffset: { width: 0, height: 2 },
-              shadowOpacity: 0.1,
-              shadowRadius: 4,
-              elevation: 3,
+              backgroundColor: '#F0FDFA',
+              borderRadius: 12,
+              padding: 16,
+              flexDirection: 'row',
             }}>
-              <Text style={{ fontSize: 16, color: '#64748B', marginBottom: 16 }}>
-                Enter the code from your partner
+              <Ionicons name="shield-checkmark" size={24} color="#14B8A6" />
+              <Text style={{ flex: 1, marginLeft: 12, color: '#134E48', fontSize: 14 }}>
+                Unique pairing codes ensure only you and your partner can connect. Only two people can be in a group.
               </Text>
-              
-              <TextInput
-                style={{
-                  backgroundColor: '#F1F5F9',
-                  borderRadius: 12,
-                  padding: 16,
-                  fontSize: 24,
-                  textAlign: 'center',
-                  letterSpacing: 8,
-                  color: '#1E293B',
-                }}
-                value={inviteCode}
-                onChangeText={setInviteCode}
-                placeholder="ABC123"
-                placeholderTextColor="#94A3B8"
-                autoCapitalize="characters"
-                maxLength={6}
-              />
-
-              <TouchableOpacity
-                style={{
-                  backgroundColor: '#14B8A6',
-                  paddingVertical: 16,
-                  borderRadius: 12,
-                  alignItems: 'center',
-                  marginTop: 24,
-                }}
-                onPress={handleJoin}
-              >
-                <Text style={{ color: 'white', fontSize: 16, fontWeight: '600' }}>
-                  Join Partner
-                </Text>
-              </TouchableOpacity>
             </View>
           </View>
-        )}
-
-        {/* Info */}
-        <View style={{ marginHorizontal: 24, marginTop: 24 }}>
-          <View style={{
-            backgroundColor: '#F0FDFA',
-            borderRadius: 12,
-            padding: 16,
-            flexDirection: 'row',
-          }}>
-            <Ionicons name="shield-checkmark" size={24} color="#14B8A6" />
-            <Text style={{ flex: 1, marginLeft: 12, color: '#134E48', fontSize: 14 }}>
-              Unique pairing codes ensure only you and your partner can connect. Only two people can be in a group.
-            </Text>
-          </View>
-        </View>
-      </ScrollView>
+        </ScrollView>
+      </KeyboardAvoidingView>
     </SafeAreaView>
   );
 }

@@ -133,12 +133,23 @@ export default function NotesView() {
   };
 
   const handleDeleteEntry = async (id: string) => {
+    const entry = entries.find(e => e.id === id);
+    if (entry && entry.authorId !== user?.id) {
+      Alert.alert('Access Denied', 'You can only delete your own entries.');
+      return;
+    }
+
     Alert.alert('Delete Entry', 'Are you sure you want to delete this note?', [
       { text: 'Cancel', style: 'cancel' },
       { text: 'Delete', style: 'destructive', onPress: async () => {
         try {
           await deleteJournalEntry(id);
           setEntries(entries.filter(e => e.id !== id));
+          if (showNoteModal) {
+            setShowNoteModal(false);
+            setEditingNote(null);
+            setNoteContent('');
+          }
         } catch (error) {
           Alert.alert('Error', 'Failed to delete entry');
         }
@@ -153,6 +164,13 @@ export default function NotesView() {
         try {
           await deleteReminder(id);
           setReminders(reminders.filter(r => r.id !== id));
+          if (showReminderModal) {
+            setShowReminderModal(false);
+            setEditingReminder(null);
+            setReminderTitle('');
+            setDateValue(new Date());
+            setReminderDate(new Date().toISOString().split('T')[0]);
+          }
         } catch (error) {
           Alert.alert('Error', 'Failed to delete reminder');
         }
@@ -252,13 +270,7 @@ export default function NotesView() {
                               {new Date(reminder.date).toLocaleDateString(undefined, { month: 'short', day: 'numeric', year: 'numeric' })}
                             </Text>
                           </View>
-                          <TouchableOpacity 
-                            onPress={() => handleDeleteReminder(reminder.id)}
-                            className="p-2"
-                          >
-                            <Ionicons name="trash-outline" size={20} color="#FF6B6B" />
-                          </TouchableOpacity>
-                          <Ionicons name="chevron-forward" size={16} color="#CBD5E1" className="ml-1" />
+                          <Ionicons name="chevron-forward" size={20} color="#CBD5E1" className="ml-1" />
                         </View>
                       </TouchableOpacity>
                     );
@@ -285,21 +297,24 @@ export default function NotesView() {
                     onPress={() => handleEditNote(entry)}
                     className="bg-white rounded-3xl p-6 shadow-sm mb-4 border border-slate-50"
                   >
-                    <View className="flex-row justify-between items-start mb-3">
-                      <Text className="text-xs font-bold text-teal uppercase tracking-widest">
-                        {new Date(entry.createdAt).toLocaleDateString(undefined, { month: 'short', day: 'numeric' })}
-                      </Text>
-                      <View className="flex-row items-center">
-                        <TouchableOpacity 
-                          onPress={() => handleDeleteEntry(entry.id)}
-                          className="mr-3"
-                        >
-                          <Ionicons name="trash-outline" size={18} color="#FF6B6B" />
-                        </TouchableOpacity>
-                        <Ionicons name="create-outline" size={18} color="#14B8A6" />
+                    <View className="flex-row items-start mb-3">
+                      <View className="flex-1">
+                        <View className="flex-row items-center mb-1">
+                          <Text className="text-xs font-bold text-teal uppercase tracking-widest ">
+                            {new Date(entry.createdAt).toLocaleDateString(undefined, { month: 'short', day: 'numeric' })}
+                          </Text>
+                          {entry.authorId !== user?.id && (
+                            <View className="ml-2 bg-slate-100 px-2 py-0.5 rounded-full">
+                              <Text className="text-[10px] font-bold text-slate-500 uppercase">Partner</Text>
+                            </View>
+                          )}
+                        </View>
+                        <Text className="text-navy text-base leading-relaxed">{entry.content}</Text>
+                      </View>
+                      <View className="ml-3 self-center">
+                        <Ionicons name="chevron-forward" size={20} color="#CBD5E1" />
                       </View>
                     </View>
-                    <Text className="text-navy text-base leading-relaxed">{entry.content}</Text>
                   </TouchableOpacity>
                 ))
               )}
@@ -322,34 +337,48 @@ export default function NotesView() {
               <Ionicons name="close" size={28} color="#0F172A" />
             </TouchableOpacity>
             <Text style={{ fontSize: 18, fontWeight: '700', color: '#0F172A' }}>
-              {editingNote ? 'Edit Note' : `New ${activeTab === 'shared' ? 'Shared' : 'Private'} Note`}
+              {editingNote 
+                ? (editingNote.authorId === user?.id ? 'Edit Note' : 'View Note') 
+                : `New ${activeTab === 'shared' ? 'Shared' : 'Private'} Note`}
             </Text>
-            <TouchableOpacity 
-              disabled={submitting || !noteContent.trim()}
-              onPress={handleAddNote}
-              style={{ opacity: submitting || !noteContent.trim() ? 0.5 : 1 }}
-            >
-              {submitting ? (
-                <ActivityIndicator color="#14B8A6" size="small" />
-              ) : (
-                <Text style={{ color: '#14B8A6', fontWeight: '700', fontSize: 16 }}>Save</Text>
+            <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+              {editingNote && editingNote.authorId === user?.id && (
+                <TouchableOpacity 
+                  onPress={() => handleDeleteEntry(editingNote.id)}
+                  style={{ marginRight: 16 }}
+                >
+                  <Ionicons name="trash-outline" size={24} color="#FF6B6B" />
+                </TouchableOpacity>
               )}
-            </TouchableOpacity>
+              {(!editingNote || editingNote.authorId === user?.id) && (
+                <TouchableOpacity 
+                  disabled={submitting || !noteContent.trim()}
+                  onPress={handleAddNote}
+                  style={{ opacity: submitting || !noteContent.trim() ? 0.5 : 1 }}
+                >
+                  {submitting ? (
+                    <ActivityIndicator color="#14B8A6" size="small" />
+                  ) : (
+                    <Text style={{ color: '#14B8A6', fontWeight: '700', fontSize: 16 }}>Save</Text>
+                  )}
+                </TouchableOpacity>
+              )}
+            </View>
           </View>
 
           {/* Editor Content */}
           <ScrollView className="flex-1 px-6 pt-4">
             <TextInput
               multiline
-              autoFocus
+              editable={!editingNote || editingNote.authorId === user?.id}
               style={{ 
                 fontSize: 18, 
                 lineHeight: 28, 
-                color: '#0F172A', 
+                color: editingNote && editingNote.authorId !== user?.id ? '#64748B' : '#0F172A', 
                 minHeight: 300, 
                 textAlignVertical: 'top' 
               }}
-              placeholder="Start writing your thoughts..."
+              placeholder={editingNote && editingNote.authorId !== user?.id ? "" : "Start writing your thoughts..."}
               placeholderTextColor="#94A3B8"
               value={noteContent}
               onChangeText={setNoteContent}
@@ -369,15 +398,25 @@ export default function NotesView() {
           <View style={{ backgroundColor: '#FFFFFF', borderTopLeftRadius: 40, borderTopRightRadius: 40, padding: 32, paddingBottom: 48 }}>
             <View className="flex-row justify-between items-center mb-6">
               <Text className="text-2xl font-bold text-navy">{editingReminder ? 'Edit' : 'New'} Reminder</Text>
-              <TouchableOpacity onPress={() => {
-                setShowReminderModal(false);
-                setEditingReminder(null);
-                setReminderTitle('');
-                setDateValue(new Date());
-                setReminderDate(new Date().toISOString().split('T')[0]);
-              }}>
-                <Ionicons name="close-circle" size={32} color="#CBD5E1" />
-              </TouchableOpacity>
+              <View className="flex-row items-center">
+                {editingReminder && (
+                  <TouchableOpacity 
+                    onPress={() => handleDeleteReminder(editingReminder.id)}
+                    className="mr-4"
+                  >
+                    <Ionicons name="trash-outline" size={24} color="#FF6B6B" />
+                  </TouchableOpacity>
+                )}
+                <TouchableOpacity onPress={() => {
+                  setShowReminderModal(false);
+                  setEditingReminder(null);
+                  setReminderTitle('');
+                  setDateValue(new Date());
+                  setReminderDate(new Date().toISOString().split('T')[0]);
+                }}>
+                  <Ionicons name="close-circle" size={32} color="#CBD5E1" />
+                </TouchableOpacity>
+              </View>
             </View>
             
             <Text style={{ fontSize: 14, fontWeight: '700', color: '#475569', marginBottom: 8, marginLeft: 4 }}>Title</Text>

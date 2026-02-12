@@ -7,7 +7,10 @@ import {
   Alert,
   ActivityIndicator,
   TextInput,
+  KeyboardAvoidingView,
+  Platform,
 } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 import { useRouter, useLocalSearchParams } from 'expo-router';
 import { completeOnboarding } from '@/services/auth';
 import { useUserStore } from '@/store/userStore';
@@ -293,52 +296,64 @@ export default function OnboardingScreen() {
   );
 
   const isNextDisabled = () => {
-    if (step === 1) return !relationshipStatus;
-    if (step === 2) return !primaryGoal;
-    if (step === 3) return !checkInFrequency;
-    if (step === 4) return !loveLanguage;
-    if (step === 5) return !relationshipDuration;
+    if (step === 1) return !fullName || !dob;
+    if (step === 2) return !relationshipStatus;
+    if (step === 3) return !primaryGoal;
+    if (step === 4) return !checkInFrequency;
+    if (step === 5) return !loveLanguage;
+    if (step === 6) return !relationshipDuration;
     return false;
   };
 
   return (
-    <View className="flex-1 bg-blush-100 px-6 pt-12 pb-8">
-      {renderProgress()}
-
-      <ScrollView className="flex-1" showsVerticalScrollIndicator={false}>
-        {step === 1 && renderStep1()}
-        {step === 2 && renderStep2()}
-        {step === 3 && renderStep3()}
-        {step === 4 && renderStep4()}
-        {step === 5 && renderStep5()}
-        {step === 6 && renderStep6()}
-      </ScrollView>
-
-      <View className="flex-row gap-3 mt-6">
-        {step > 1 && (
-          <TouchableOpacity
-            className="flex-1 bg-beige-200 rounded-2xl py-4 items-center"
-            onPress={handleBack}
-          >
-            <Text className="text-navy text-base font-semibold">Back</Text>
-          </TouchableOpacity>
-        )}
-        <TouchableOpacity
-          className={`flex-1 bg-teal rounded-2xl py-4 items-center ${
-            isNextDisabled() || loading ? 'opacity-50' : ''
-          }`}
-          onPress={handleNext}
-          disabled={isNextDisabled() || loading}
+    <SafeAreaView className="flex-1 bg-surface">
+      <KeyboardAvoidingView
+        behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+        className="flex-1"
+        keyboardVerticalOffset={Platform.OS === 'ios' ? 0 : 40}
+      >
+        <ScrollView 
+          className="flex-1 px-6 pt-4"
+          contentContainerClassName="pb-32"
+          showsVerticalScrollIndicator={false}
+          keyboardShouldPersistTaps="handled"
         >
-          {loading ? (
-            <ActivityIndicator color="white" />
-          ) : (
-            <Text className="text-white text-base font-semibold">
-              {step === totalSteps ? 'Complete' : 'Continue'}
-            </Text>
-          )}
-        </TouchableOpacity>
-      </View>
-    </View>
+          {renderProgress()}
+          
+          {step === 1 && renderStep1()}
+          {step === 2 && renderStep2()}
+          {step === 3 && renderStep3()}
+          {step === 4 && renderStep4()}
+          {step === 5 && renderStep5()}
+          {step === 6 && renderStep6()}
+
+          <View className="flex-row gap-3 mt-10">
+            {step > 1 && (
+              <TouchableOpacity
+                className="flex-1 bg-beige-200 rounded-2xl py-4 items-center"
+                onPress={handleBack}
+              >
+                <Text className="text-navy text-base font-semibold">Back</Text>
+              </TouchableOpacity>
+            )}
+            <TouchableOpacity
+              className={`flex-1 bg-teal rounded-2xl py-4 items-center ${
+                isNextDisabled() || loading ? 'opacity-50' : ''
+              }`}
+              onPress={handleNext}
+              disabled={isNextDisabled() || loading}
+            >
+              {loading ? (
+                <ActivityIndicator color="white" />
+              ) : (
+                <Text className="text-white text-base font-semibold">
+                  {step === totalSteps ? 'Complete' : 'Continue'}
+                </Text>
+              )}
+            </TouchableOpacity>
+          </View>
+        </ScrollView>
+      </KeyboardAvoidingView>
+    </SafeAreaView>
   );
 }
