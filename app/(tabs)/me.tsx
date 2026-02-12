@@ -5,6 +5,7 @@ import { useScrollToTop } from '@react-navigation/native';
 import { useRouter } from 'expo-router';
 import { useUserStore } from '@/store/userStore';
 import { signOut } from '@/services/auth';
+import { breakup } from '@/services/pairing';
 import { Ionicons } from '@expo/vector-icons';
 
 export default function MeScreen() {
@@ -30,12 +31,38 @@ export default function MeScreen() {
           onPress: async () => {
             try {
               await signOut();
-              // Navigate first to public route
               router.replace('/(auth)/login');
-              // Clear state after a small delay to allow navigation to start
               setTimeout(() => {
                 clearAll();
               }, 100);
+            } catch (error: any) {
+              Alert.alert('Error', error.message);
+            }
+          },
+        },
+      ]
+    );
+  };
+
+  const handleBreakup = async () => {
+    Alert.alert(
+      'End Relationship',
+      'Are you absolutely sure you want to end your relationship connection? This will remove your partner from your profile and delete your shared history.',
+      [
+        { text: 'Cancel', style: 'cancel' },
+        {
+          text: 'End Relationship',
+          style: 'destructive',
+          onPress: async () => {
+            try {
+              const result = await breakup();
+              if (result.success) {
+                // Update local state - clear partner and couple
+                useUserStore.setState({ partner: null, couple: null });
+                Alert.alert('Success', 'Relationship ended successfully.');
+              } else {
+                Alert.alert('Error', result.message);
+              }
             } catch (error: any) {
               Alert.alert('Error', error.message);
             }
@@ -158,7 +185,10 @@ export default function MeScreen() {
         <View className="px-6 mb-6">
           <Text className="text-lg font-bold text-navy mb-3">Account</Text>
           <View className="bg-white rounded-2xl shadow-md overflow-hidden">
-            <TouchableOpacity className="p-4 flex-row items-center justify-between">
+            <TouchableOpacity 
+                className="p-4 flex-row items-center justify-between"
+                onPress={() => router.push('/profile-edit')}
+            >
               <View className="flex-row items-center">
                 <Ionicons name="person-outline" size={20} color="#1E293B" />
                 <Text className="ml-3 text-base font-medium text-navy">Edit Profile</Text>
@@ -166,10 +196,13 @@ export default function MeScreen() {
               <Ionicons name="chevron-forward" size={20} color="#94A3B8" />
             </TouchableOpacity>
             <View className="h-px bg-beige-100 mx-4" />
-            <TouchableOpacity className="p-4 flex-row items-center justify-between">
+            <TouchableOpacity 
+                className="p-4 flex-row items-center justify-between"
+                onPress={() => router.push('/privacy')}
+            >
               <View className="flex-row items-center">
                 <Ionicons name="lock-closed-outline" size={20} color="#1E293B" />
-                <Text className="ml-3 text-base font-medium text-navy">Privacy</Text>
+                <Text className="ml-3 text-base font-medium text-navy">Privacy Policy</Text>
               </View>
               <Ionicons name="chevron-forward" size={20} color="#94A3B8" />
             </TouchableOpacity>
@@ -185,6 +218,20 @@ export default function MeScreen() {
             </TouchableOpacity>
           </View>
         </View>
+
+        {/* Relationship Status */}
+        {partner && (
+          <View className="px-6 mb-6">
+            <Text className="text-lg font-bold text-navy mb-3">Relationship</Text>
+            <TouchableOpacity
+              className="bg-white rounded-2xl p-4 shadow-md flex-row items-center justify-center border border-red-100"
+              onPress={handleBreakup}
+            >
+              <Ionicons name="heart-dislike-outline" size={20} color="#EF4444" />
+              <Text className="ml-2 text-base font-bold text-red-500">End Relationship</Text>
+            </TouchableOpacity>
+          </View>
+        )}
 
         {/* Sign Out */}
         <View className="px-6 mb-8">

@@ -22,7 +22,7 @@ export async function generatePairingCode(): Promise<PairingCode> {
 
     const code = Math.random().toString(36).substring(2, 8).toUpperCase();
     const expiresAt = new Date();
-    expiresAt.setHours(expiresAt.getHours() + 24);
+    expiresAt.setMinutes(expiresAt.getMinutes() + 2);
 
     const { data, error } = await supabase
         .from('pairing_codes')
@@ -62,6 +62,12 @@ export async function usePairingCode(code: string): Promise<{ success: boolean; 
         input_code: code.toUpperCase(),
     });
 
+    if (error) throw error;
+    return data as { success: boolean; message: string };
+}
+
+export async function breakup(): Promise<{ success: boolean; message: string }> {
+    const { data, error } = await supabase.rpc('breakup_couple');
     if (error) throw error;
     return data as { success: boolean; message: string };
 }

@@ -27,6 +27,20 @@ export default function PairingScreen() {
   const [generatedCode, setGeneratedCode] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
   const [mode, setMode] = useState<'generate' | 'join'>('generate');
+  const [timeLeft, setTimeLeft] = useState<number | null>(null);
+
+  useEffect(() => {
+    let timer: any;
+    if (timeLeft !== null && timeLeft > 0) {
+      timer = setInterval(() => {
+        setTimeLeft((prev) => (prev !== null && prev > 0 ? prev - 1 : 0));
+      }, 1000);
+    } else if (timeLeft === 0) {
+      setGeneratedCode(null);
+      setTimeLeft(null);
+    }
+    return () => clearInterval(timer);
+  }, [timeLeft]);
 
   useEffect(() => {
     const fetchCode = async () => {
@@ -34,6 +48,14 @@ export default function PairingScreen() {
         const active = await getActivePairingCode();
         if (active) {
           setGeneratedCode(active.code);
+          const expiryDate = new Date(active.expires_at).getTime();
+          const now = new Date().getTime();
+          const secondsLeft = Math.floor((expiryDate - now) / 1000);
+          if (secondsLeft > 0) {
+            setTimeLeft(secondsLeft);
+          } else {
+            setGeneratedCode(null);
+          }
         }
       } catch (error) {
         console.error('Error fetching active code:', error);
@@ -47,6 +69,7 @@ export default function PairingScreen() {
     try {
       const codeData = await generatePairingCode();
       setGeneratedCode(codeData.code);
+      setTimeLeft(120); // 2 minutes
     } catch (error: any) {
       Alert.alert('Error', error.message);
     } finally {
@@ -167,7 +190,7 @@ export default function PairingScreen() {
                   paddingVertical: 24,
                   paddingHorizontal: 48,
                   borderRadius: 16,
-                  marginBottom: 24,
+                  marginBottom: 16,
                   minWidth: 200,
                   alignItems: 'center',
                   justifyContent: 'center',
@@ -175,14 +198,21 @@ export default function PairingScreen() {
                   {loading ? (
                     <ActivityIndicator color="#14B8A6" size="large" />
                   ) : generatedCode ? (
-                    <Text style={{
-                      fontSize: 36,
-                      fontWeight: 'bold',
-                      color: '#14B8A6',
-                      letterSpacing: 8,
-                    }}>
-                      {generatedCode}
-                    </Text>
+                    <View className="items-center">
+                      <Text style={{
+                        fontSize: 36,
+                        fontWeight: 'bold',
+                        color: '#14B8A6',
+                        letterSpacing: 8,
+                      }}>
+                        {generatedCode}
+                      </Text>
+                      {timeLeft !== null && (
+                        <Text className="text-teal-600 font-bold mt-2">
+                          Expires in {Math.floor(timeLeft / 60)}:{(timeLeft % 60).toString().padStart(2, '0')}
+                        </Text>
+                      )}
+                    </View>
                   ) : (
                     <TouchableOpacity onPress={handleGenerate}>
                       <Text style={{ color: '#14B8A6', fontWeight: '700' }}>Tap to Generate</Text>
