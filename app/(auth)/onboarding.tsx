@@ -6,9 +6,10 @@ import {
   ScrollView,
   Alert,
   ActivityIndicator,
+  TextInput,
 } from 'react-native';
 import { useRouter, useLocalSearchParams } from 'expo-router';
-import { signUpWithEmail } from '@/services/auth';
+import { completeOnboarding } from '@/services/auth';
 import { useUserStore } from '@/store/userStore';
 import { Ionicons } from '@expo/vector-icons';
 import { User } from '@/types';
@@ -24,19 +25,18 @@ export default function OnboardingScreen() {
   const [loading, setLoading] = useState(false);
 
   // Form State
+  const [fullName, setFullName] = useState('');
+  const [dob, setDob] = useState('');
   const [relationshipStatus, setRelationshipStatus] = useState<RelationshipStatus | null>(null);
   const [primaryGoal, setPrimaryGoal] = useState<string | null>(null);
   const [checkInFrequency, setCheckInFrequency] = useState<string | null>(null);
   const [loveLanguage, setLoveLanguage] = useState<string | null>(null);
   const [relationshipDuration, setRelationshipDuration] = useState<string | null>(null);
 
-  const totalSteps = relationshipStatus === 'single' ? 4 : 5;
+  const totalSteps = relationshipStatus === 'single' ? 5 : 6;
 
   const handleNext = () => {
-    if (step === 1 && relationshipStatus === 'single') {
-        // Skip duration logic usually happens at the end or we just adjust step sequence
-        setStep(step + 1);
-    } else if (step < totalSteps) {
+    if (step < totalSteps) {
       setStep(step + 1);
     } else {
       handleComplete();
@@ -50,7 +50,7 @@ export default function OnboardingScreen() {
   };
 
   const handleComplete = async () => {
-    if (!relationshipStatus || !primaryGoal || !checkInFrequency || !loveLanguage) {
+    if (!fullName || !dob || !relationshipStatus || !primaryGoal || !checkInFrequency || !loveLanguage) {
       Alert.alert('Error', 'Please complete all required steps');
       return;
     }
@@ -62,8 +62,12 @@ export default function OnboardingScreen() {
 
     setLoading(true);
     try {
-      const user = await signUpWithEmail(params.email, params.password, {
-        displayName: params.displayName,
+      const user = useUserStore.getState().user;
+      if (!user) throw new Error('User not found. Please log in again.');
+
+      const result = await completeOnboarding(user.id, {
+        fullName,
+        dob,
         relationshipStatus: relationshipStatus || undefined,
         primaryGoal: primaryGoal || undefined,
         checkInFrequency: checkInFrequency || undefined,
@@ -71,7 +75,7 @@ export default function OnboardingScreen() {
         relationshipDuration: relationshipStatus === 'single' ? undefined : (relationshipDuration || undefined),
         hasCompletedOnboarding: true,
       });
-      setUser(user);
+      useUserStore.getState().setAuthResult(result);
       router.replace('/(tabs)/home');
     } catch (error: any) {
       Alert.alert('Setup Failed', error.message);
@@ -97,6 +101,37 @@ export default function OnboardingScreen() {
   );
 
   const renderStep1 = () => (
+    <View className="flex-1">
+      <Text className="text-2xl font-bold text-navy mb-2">About You</Text>
+      <Text className="text-base text-navy-600 mb-6">Let's start with the basics.</Text>
+      <View className="gap-4">
+        <View>
+          <Text className="text-sm font-bold text-navy mb-2">Full Name</Text>
+          <View className="bg-beige-100 rounded-2xl p-4">
+            <TextInput
+              className="text-navy text-base"
+              placeholder="John Doe"
+              value={fullName}
+              onChangeText={setFullName}
+            />
+          </View>
+        </View>
+        <View>
+          <Text className="text-sm font-bold text-navy mb-2">Date of Birth</Text>
+          <View className="bg-beige-100 rounded-2xl p-4">
+            <TextInput
+              className="text-navy text-base"
+              placeholder="YYYY-MM-DD"
+              value={dob}
+              onChangeText={setDob}
+            />
+          </View>
+        </View>
+      </View>
+    </View>
+  );
+
+  const renderStep2 = () => (
     <View className="flex-1">
       <Text className="text-2xl font-bold text-navy mb-2">Relationship Status</Text>
       <Text className="text-base text-navy-600 mb-6">Where are you currently?</Text>
@@ -129,7 +164,7 @@ export default function OnboardingScreen() {
     </View>
   );
 
-  const renderStep2 = () => (
+  const renderStep3 = () => (
     <View className="flex-1">
       <Text className="text-2xl font-bold text-navy mb-2">Primary Goal</Text>
       <Text className="text-base text-navy-600 mb-6">What do you want to achieve with Sort Out?</Text>
@@ -161,7 +196,7 @@ export default function OnboardingScreen() {
     </View>
   );
 
-  const renderStep3 = () => (
+  const renderStep4 = () => (
     <View className="flex-1">
       <Text className="text-2xl font-bold text-navy mb-2">Check-in Frequency</Text>
       <Text className="text-base text-navy-600 mb-6">How often would you like to reflect?</Text>
@@ -192,7 +227,7 @@ export default function OnboardingScreen() {
     </View>
   );
 
-  const renderStep4 = () => (
+  const renderStep5 = () => (
     <View className="flex-1">
       <Text className="text-2xl font-bold text-navy mb-2">Love Language</Text>
       <Text className="text-base text-navy-600 mb-6">Which resonates most with you?</Text>
@@ -225,7 +260,7 @@ export default function OnboardingScreen() {
     </View>
   );
 
-  const renderStep5 = () => (
+  const renderStep6 = () => (
     <View className="flex-1">
       <Text className="text-2xl font-bold text-navy mb-2">Relationship Duration</Text>
       <Text className="text-base text-navy-600 mb-6">How long have you been together?</Text>
@@ -276,6 +311,7 @@ export default function OnboardingScreen() {
         {step === 3 && renderStep3()}
         {step === 4 && renderStep4()}
         {step === 5 && renderStep5()}
+        {step === 6 && renderStep6()}
       </ScrollView>
 
       <View className="flex-row gap-3 mt-6">

@@ -30,8 +30,9 @@ export default function LoginScreen() {
 
     setLoading(true);
     try {
-      const user = await signInWithEmail(email, password);
-      setUser(user);
+      const result = await signInWithEmail(email, password);
+      useUserStore.getState().setAuthResult(result);
+      const user = result.user!;
       
       if (user.hasCompletedOnboarding) {
         router.replace('/(tabs)/home');
@@ -42,7 +43,19 @@ export default function LoginScreen() {
         });
       }
     } catch (error: any) {
-      Alert.alert('Login Failed', error.message);
+      if (error.message?.includes('Email not confirmed')) {
+        Alert.alert('Verification Needed', 'Please verify your email before signing in.', [
+          {
+            text: 'Verify Now',
+            onPress: () => router.push({
+              pathname: '/(auth)/verify',
+              params: { email }
+            })
+          }
+        ]);
+      } else {
+        Alert.alert('Login Failed', error.message);
+      }
     } finally {
       setLoading(false);
     }

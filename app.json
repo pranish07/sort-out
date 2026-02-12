@@ -8,7 +8,7 @@
         "userInterfaceStyle": "automatic",
         "scheme": "sort-out",
         "splash": {
-            "image": "npx expo start -c./assets/splash.png",
+            "image": "./assets/splash.png",
             "resizeMode": "contain",
             "backgroundColor": "#FFEBE9"
         },

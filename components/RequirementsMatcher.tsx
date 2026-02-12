@@ -3,8 +3,10 @@ import { Ionicons } from '@expo/vector-icons';
 import { useUserStore } from '@/store/userStore';
 
 export default function RequirementsMatcher() {
-  const userAssessment = useUserStore((state) => state.userAssessment);
-  const partnerAssessment = useUserStore((state) => state.partnerAssessment);
+  const user = useUserStore((state) => state.user);
+  const partner = useUserStore((state) => state.partner);
+  const userAssessment = useUserStore((state) => state.userAssessment) || user?.userAssessment;
+  const partnerAssessment = useUserStore((state) => state.partnerAssessment) || partner?.userAssessment;
 
   const requirements = [
     { label: 'Emotional Needs', user: userAssessment?.['Emotional Needs'] || 0, partner: partnerAssessment?.['Emotional Needs'] || 0, icon: 'heart-outline' },
@@ -14,7 +16,7 @@ export default function RequirementsMatcher() {
     { label: 'Quality Time', user: userAssessment?.['Quality Time'] || 0, partner: partnerAssessment?.['Quality Time'] || 0, icon: 'time-outline' },
   ];
 
-  const isCompleted = !!userAssessment;
+  const isCompleted = !!userAssessment && Object.keys(userAssessment).length > 0;
 
   if (!isCompleted) {
     return (

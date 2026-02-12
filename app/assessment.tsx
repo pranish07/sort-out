@@ -1,9 +1,10 @@
 import { useState } from 'react';
-import { View, Text, TouchableOpacity, Dimensions } from 'react-native';
+import { View, Text, TouchableOpacity, Dimensions, Alert } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Ionicons } from '@expo/vector-icons';
 import { useRouter } from 'expo-router';
 import { useUserStore } from '@/store/userStore';
+import { saveAssessment } from '@/services/auth';
 
 const { width } = Dimensions.get('window');
 
@@ -48,7 +49,7 @@ export default function AssessmentScreen() {
     }
   };
 
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
     const result: Record<string, number> = {};
     const categories = ['Emotional Needs', 'Physical Affection', 'Communication', 'Adventure', 'Quality Time'];
     
@@ -64,8 +65,20 @@ export default function AssessmentScreen() {
       }
     });
 
-    setUserAssessment(result);
-    router.back();
+    const user = useUserStore.getState().user;
+    if (user) {
+      try {
+        await saveAssessment(user.id, result);
+        setUserAssessment(result);
+        router.back();
+      } catch (error: any) {
+        console.error('Error saving assessment:', error);
+        Alert.alert('Save Failed', 'Could not save your assessment results. Please try again.');
+      }
+    } else {
+      setUserAssessment(result);
+      router.back();
+    }
   };
 
   const isLastStep = currentStep === ASSESSMENT_QUESTIONS.length - 1;

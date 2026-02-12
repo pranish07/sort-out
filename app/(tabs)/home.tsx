@@ -24,12 +24,13 @@ export default function HomeScreen() {
   };
 
   const loveScore = useMemo(() => {
-    if (!userAssessment) return 0;
-    const values = Object.values(userAssessment);
+    const assessment = userAssessment || user?.userAssessment;
+    if (!assessment) return 0;
+    const values = Object.values(assessment);
     return Math.round(values.reduce((a, b) => a + b, 0) / values.length);
-  }, [userAssessment]);
+  }, [userAssessment, user?.userAssessment]);
 
-  const isCompleted = !!userAssessment;
+  const isCompleted = !!userAssessment || !!user?.userAssessment;
 
   return (
     <SafeAreaView className="flex-1 bg-surface">

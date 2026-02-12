@@ -12,10 +12,14 @@ export default function Index() {
   useEffect(() => {
     const checkAuth = async () => {
       try {
-        const user = await getCurrentUser();
-        if (user) {
-          setUser(user);
-          router.replace('/(tabs)/home');
+        const result = await getCurrentUser();
+        if (result && result.user) {
+          useUserStore.getState().setAuthResult(result);
+          if (result.user.hasCompletedOnboarding) {
+            router.replace('/(tabs)/home');
+          } else {
+            router.replace('/(auth)/onboarding');
+          }
         } else {
           router.replace('/(auth)/login');
         }

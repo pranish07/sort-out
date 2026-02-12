@@ -2,8 +2,11 @@ export interface User {
     id: string;
     email: string;
     displayName: string;
+    fullName?: string;
     photoURL?: string;
+    avatarUrl?: string; // Standardize on avatarUrl for Supabase
     age?: number;
+    dob?: string; // ISO date string
     gender?: 'male' | 'female' | 'other';
     relationshipStatus?: 'single' | 'dating' | 'relationship' | 'engaged' | 'married';
     hasCompletedOnboarding: boolean;
@@ -11,6 +14,7 @@ export interface User {
     checkInFrequency?: string;
     loveLanguage?: string;
     relationshipDuration?: string;
+    userAssessment?: Record<string, number> | null;
     partnerId?: string;
     partnerInviteCode?: string;
     createdAt: Date;

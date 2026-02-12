@@ -14,6 +14,7 @@ interface UserStore {
     setPreferences: (preferences: UserPreferences | null) => void;
     setUserAssessment: (assessment: Record<string, number> | null) => void;
     setPartnerAssessment: (assessment: Record<string, number> | null) => void;
+    setAuthResult: (result: { user: User | null; partner: User | null } | null) => void;
     clearAll: () => void;
 }
 
@@ -28,7 +29,17 @@ export const useUserStore = create<UserStore>((set) => ({
     setPartner: (partner) => set({ partner }),
     setCouple: (couple) => set({ couple }),
     setPreferences: (preferences) => set({ preferences }),
-    setUserAssessment: (userAssessment) => set({ userAssessment }),
+    setUserAssessment: (userAssessment) => set((state) => ({
+        userAssessment,
+        user: state.user ? { ...state.user, userAssessment } : null
+    })),
     setPartnerAssessment: (partnerAssessment) => set({ partnerAssessment }),
+    setAuthResult: (result) => {
+        if (!result) {
+            set({ user: null, partner: null });
+            return;
+        }
+        set({ user: result.user, partner: result.partner });
+    },
     clearAll: () => set({ user: null, partner: null, couple: null, preferences: null, userAssessment: null, partnerAssessment: null }),
 }));

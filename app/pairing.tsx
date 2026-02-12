@@ -10,25 +10,76 @@ import {
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useRouter } from 'expo-router';
 import { Ionicons } from '@expo/vector-icons';
+import { useUserStore } from '@/store/userStore';
+import { generatePairingCode, getActivePairingCode, usePairingCode } from '@/services/pairing';
+import { syncUser } from '@/services/auth';
+import { ActivityIndicator } from 'react-native';
+import { useEffect } from 'react';
 
 export default function PairingScreen() {
   const router = useRouter();
+  const setUser = useUserStore((state) => state.setUser);
+  const setPartner = useUserStore((state) => state.setPartner);
+  
   const [inviteCode, setInviteCode] = useState('');
-  const [generatedCode] = useState(() => {
-    // Generate a simple invite code
-    return Math.random().toString(36).substring(2, 8).toUpperCase();
-  });
+  const [generatedCode, setGeneratedCode] = useState<string | null>(null);
+  const [loading, setLoading] = useState(false);
   const [mode, setMode] = useState<'generate' | 'join'>('generate');
 
-  const handleJoin = () => {
-    if (!inviteCode.trim()) {
-      Alert.alert('Error', 'Please enter an invite code');
+  useEffect(() => {
+    const fetchCode = async () => {
+      try {
+        const active = await getActivePairingCode();
+        if (active) {
+          setGeneratedCode(active.code);
+        }
+      } catch (error) {
+        console.error('Error fetching active code:', error);
+      }
+    };
+    fetchCode();
+  }, []);
+
+  const handleGenerate = async () => {
+    setLoading(true);
+    try {
+      const codeData = await generatePairingCode();
+      setGeneratedCode(codeData.code);
+    } catch (error: any) {
+      Alert.alert('Error', error.message);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleJoin = async () => {
+    if (!inviteCode.trim() || inviteCode.length < 6) {
+      Alert.alert('Error', 'Please enter a valid 6-character invite code');
       return;
     }
-    // For offline mode, just simulate joining
-    Alert.alert('Success', 'Partner paired successfully! (Demo mode)', [
-      { text: 'OK', onPress: () => router.back() }
-    ]);
+    
+    setLoading(true);
+    try {
+      const result = await usePairingCode(inviteCode);
+      if (result.success) {
+        // Sync user data to get partner info
+        const syncResult = await syncUser();
+        if (syncResult) {
+          setUser(syncResult.user);
+          setPartner(syncResult.partner);
+        }
+        
+        Alert.alert('Success', 'Partner paired successfully!', [
+          { text: 'OK', onPress: () => router.replace('/(tabs)/me') }
+        ]);
+      } else {
+        Alert.alert('Pairing Failed', result.message);
+      }
+    } catch (error: any) {
+      Alert.alert('Error', error.message);
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -105,33 +156,46 @@ export default function PairingScreen() {
                 paddingHorizontal: 48,
                 borderRadius: 16,
                 marginBottom: 24,
+                minWidth: 200,
+                alignItems: 'center',
+                justifyContent: 'center',
               }}>
-                <Text style={{
-                  fontSize: 36,
-                  fontWeight: 'bold',
-                  color: '#14B8A6',
-                  letterSpacing: 8,
-                }}>
-                  {generatedCode}
-                </Text>
+                {loading ? (
+                  <ActivityIndicator color="#14B8A6" size="large" />
+                ) : generatedCode ? (
+                  <Text style={{
+                    fontSize: 36,
+                    fontWeight: 'bold',
+                    color: '#14B8A6',
+                    letterSpacing: 8,
+                  }}>
+                    {generatedCode}
+                  </Text>
+                ) : (
+                  <TouchableOpacity onPress={handleGenerate}>
+                    <Text style={{ color: '#14B8A6', fontWeight: '700' }}>Tap to Generate</Text>
+                  </TouchableOpacity>
+                )}
               </View>
 
-              <TouchableOpacity
-                style={{
-                  flexDirection: 'row',
-                  alignItems: 'center',
-                  backgroundColor: '#14B8A6',
-                  paddingVertical: 12,
-                  paddingHorizontal: 24,
-                  borderRadius: 12,
-                }}
-                onPress={() => Alert.alert('Copied!', 'Code copied to clipboard')}
-              >
-                <Ionicons name="copy-outline" size={20} color="white" />
-                <Text style={{ color: 'white', fontWeight: '600', marginLeft: 8 }}>
-                  Copy Code
-                </Text>
-              </TouchableOpacity>
+              {generatedCode && !loading && (
+                <TouchableOpacity
+                  style={{
+                    flexDirection: 'row',
+                    alignItems: 'center',
+                    backgroundColor: '#14B8A6',
+                    paddingVertical: 12,
+                    paddingHorizontal: 24,
+                    borderRadius: 12,
+                  }}
+                  onPress={() => Alert.alert('Copied!', 'Code copied to clipboard')}
+                >
+                  <Ionicons name="copy-outline" size={20} color="white" />
+                  <Text style={{ color: 'white', fontWeight: '600', marginLeft: 8 }}>
+                    Copy Code
+                  </Text>
+                </TouchableOpacity>
+              )}
             </View>
           </View>
         ) : (
@@ -189,14 +253,14 @@ export default function PairingScreen() {
         {/* Info */}
         <View style={{ marginHorizontal: 24, marginTop: 24 }}>
           <View style={{
-            backgroundColor: '#FEF3C7',
+            backgroundColor: '#F0FDFA',
             borderRadius: 12,
             padding: 16,
             flexDirection: 'row',
           }}>
-            <Ionicons name="information-circle" size={24} color="#D97706" />
-            <Text style={{ flex: 1, marginLeft: 12, color: '#92400E', fontSize: 14 }}>
-              Note: This is demo mode. In the full version, pairing would sync your data with your partner.
+            <Ionicons name="shield-checkmark" size={24} color="#14B8A6" />
+            <Text style={{ flex: 1, marginLeft: 12, color: '#134E48', fontSize: 14 }}>
+              Unique pairing codes ensure only you and your partner can connect. Only two people can be in a group.
             </Text>
           </View>
         </View>

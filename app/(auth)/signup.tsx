@@ -11,6 +11,7 @@ import {
 } from 'react-native';
 import { useRouter } from 'expo-router';
 import { signUpWithEmail } from '@/services/auth';
+import { useUserStore } from '@/store/userStore';
 import { Ionicons } from '@expo/vector-icons';
 
 export default function SignupScreen() {
@@ -21,6 +22,7 @@ export default function SignupScreen() {
   const [displayName, setDisplayName] = useState('');
   const [loading, setLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
+  const setUser = useUserStore((state) => state.setUser);
 
   const handleSignup = async () => {
     if (!email || !password || !confirmPassword || !displayName) {
@@ -40,9 +42,13 @@ export default function SignupScreen() {
 
     setLoading(true);
     try {
-      router.push({
-        pathname: '/(auth)/onboarding',
-        params: { email, password, displayName },
+      const result = await signUpWithEmail(email, password, { displayName });
+      useUserStore.getState().setAuthResult(result);
+      const user = result.user!;
+      
+      router.replace({
+        pathname: '/(auth)/verify',
+        params: { email, displayName: user.displayName }
       });
     } catch (error: any) {
       Alert.alert('Signup Failed', error.message);

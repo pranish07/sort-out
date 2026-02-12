@@ -26,8 +26,12 @@ export default function MeScreen() {
           onPress: async () => {
             try {
               await signOut();
-              clearAll();
+              // Navigate first to public route
               router.replace('/(auth)/login');
+              // Clear state after a small delay to allow navigation to start
+              setTimeout(() => {
+                clearAll();
+              }, 100);
             } catch (error: any) {
               Alert.alert('Error', error.message);
             }
@@ -61,23 +65,26 @@ export default function MeScreen() {
             <View className="items-center mb-4">
               <View className="w-24 h-24 bg-teal-100 rounded-full items-center justify-center mb-3">
                 <Text className="text-4xl font-bold text-teal">
-                  {user?.displayName?.charAt(0).toUpperCase() || 'U'}
+                  {user?.fullName?.charAt(0).toUpperCase() || user?.displayName?.charAt(0).toUpperCase() || 'U'}
                 </Text>
               </View>
-              <Text className="text-2xl font-bold text-navy">{user?.displayName}</Text>
+              <Text className="text-2xl font-bold text-navy">{user?.fullName || user?.displayName}</Text>
               <Text className="text-base text-navy-600">{user?.email}</Text>
+              {user?.dob && (
+                <Text className="text-sm text-navy-400 mt-1">Born: {user.dob}</Text>
+              )}
             </View>
 
             {partner ? (
               <View className="bg-sage-50 rounded-2xl p-4 flex-row items-center">
                 <View className="w-12 h-12 bg-sage-200 rounded-full items-center justify-center">
                   <Text className="text-xl font-bold text-sage-500">
-                    {partner.displayName?.charAt(0).toUpperCase() || 'P'}
+                    {partner.fullName?.charAt(0).toUpperCase() || partner.displayName?.charAt(0).toUpperCase() || 'P'}
                   </Text>
                 </View>
                 <View className="flex-1 ml-3">
                   <Text className="text-sm font-semibold text-navy">Paired with</Text>
-                  <Text className="text-base font-bold text-navy">{partner.displayName}</Text>
+                  <Text className="text-base font-bold text-navy">{partner.fullName || partner.displayName}</Text>
                 </View>
                 <Ionicons name="heart" size={24} color="#95BD95" />
               </View>
@@ -95,7 +102,7 @@ export default function MeScreen() {
 
         {/* AI Replier */}
         <View className="px-6 mb-6">
-          <Text className="text-lg font-bold text-navy mb-3">AI Features</Text>
+          <Text className="text-lg font-bold text-navy mb-3">Tools</Text>
           <TouchableOpacity
             className="bg-white rounded-2xl p-4 shadow-md flex-row items-center"
             onPress={() => router.push('/ai-replier')}

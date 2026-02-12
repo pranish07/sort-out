@@ -51,7 +51,7 @@ export default function TabsLayout() {
             const focused = accessibilityState?.selected;
 
             return (
-              <View className="flex-1 items-center justify-center">
+              <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
                 <TouchableOpacity
                   activeOpacity={0.9}
                   onPress={onPress}
@@ -81,8 +81,12 @@ export default function TabsLayout() {
                     <Ionicons name="flash" size={28} color="white" />
                   </View>
                   <Text 
-                    className="text-[10px] font-bold mt-1"
-                    style={{ color: '#14B8A6' }}
+                    style={{ 
+                      fontSize: 10,
+                      fontWeight: 'bold',
+                      marginTop: 4,
+                      color: '#14B8A6' 
+                    }}
                   >
                     Sort Out
                   </Text>
